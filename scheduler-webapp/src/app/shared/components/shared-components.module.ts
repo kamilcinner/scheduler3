@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { SharedLibraryModule } from '../shared-library.module';
+import { SharedLibraryModule } from '@shared/shared-library.module';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [],
-  imports: [SharedLibraryModule],
+  imports: [SharedLibraryModule, MaterialModule],
 })
 export class SharedComponentsModule {}
