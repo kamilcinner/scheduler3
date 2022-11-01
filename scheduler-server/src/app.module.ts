@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TasksModule } from './tasks/tasks.module';
@@ -8,6 +8,7 @@ import { ShoppingListsModule } from './shopping-lists/shopping-lists.module';
 import { ShoppingListItemsModule } from './shopping-list-items/shopping-list-items.module';
 import { ShoppingList } from './shopping-lists/entities/shopping-list.entity';
 import { ShoppingListItem } from './shopping-list-items/entities/shopping-list-item.entity';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -22,6 +23,14 @@ import { ShoppingListItem } from './shopping-list-items/entities/shopping-list-i
     ShoppingListItemsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true,
+      }),
+    },
+  ],
 })
 export class AppModule {}

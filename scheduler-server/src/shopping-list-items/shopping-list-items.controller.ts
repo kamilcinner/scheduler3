@@ -3,6 +3,10 @@ import { ShoppingListItemsService } from './shopping-list-items.service';
 import { CreateShoppingListItemDto } from './dto/create-shopping-list-item.dto';
 import { UpdateShoppingListItemDto } from './dto/update-shopping-list-item.dto';
 import { ShoppingListsService } from '../shopping-lists/shopping-lists.service';
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { ShoppingListItemDto } from './dto/shopping-list-item.dto';
+import { ValidateNested } from 'class-validator';
+import { UpdateShoppingListItemsDto } from './dto/update-shopping-list-items.dto';
 
 @Controller('shopping-list-items')
 export class ShoppingListItemsController {
@@ -12,6 +16,7 @@ export class ShoppingListItemsController {
   ) {}
 
   @Post(':shoppingListId')
+  @Serialize(ShoppingListItemDto)
   async create(
     @Body() createShoppingListItemDtos: CreateShoppingListItemDto[],
     @Param('shoppingListId') shoppingListId: string,
@@ -22,7 +27,9 @@ export class ShoppingListItemsController {
       throw new NotFoundException('shopping list not found');
     }
 
-    return await this.shoppingListItemsService.create(createShoppingListItemDtos, shoppingList);
+    return await Promise.all(
+      createShoppingListItemDtos.map(async (dto) => await this.shoppingListItemsService.create(dto, shoppingList)),
+    );
   }
 
   @Get(':shoppingListId')
@@ -41,9 +48,11 @@ export class ShoppingListItemsController {
     return this.shoppingListItemsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShoppingListItemDto: UpdateShoppingListItemDto) {
-    return this.shoppingListItemsService.update(+id, updateShoppingListItemDto);
+  @Patch()
+  async update(@Body() updateShoppingListItemsDto: UpdateShoppingListItemsDto) {
+    return await Promise.all(
+      updateShoppingListItemsDto.items.map(async (dto) => await this.shoppingListItemsService.update(dto)),
+    );
   }
 
   @Delete(':id')

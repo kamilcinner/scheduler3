@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShoppingListItemDto } from './dto/create-shopping-list-item.dto';
 import { UpdateShoppingListItemDto } from './dto/update-shopping-list-item.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,13 +10,10 @@ import { ShoppingList } from '../shopping-lists/entities/shopping-list.entity';
 export class ShoppingListItemsService {
   constructor(@InjectRepository(ShoppingListItem) private readonly repo: Repository<ShoppingListItem>) {}
 
-  async create(createShoppingListItemDtos: CreateShoppingListItemDto[], shoppingList: ShoppingList) {
-    const items = createShoppingListItemDtos.map((itemDto) => {
-      const item = this.repo.create(itemDto);
-      item.shoppingList = shoppingList;
-      return item;
-    });
-    return this.repo.save(items);
+  create(createShoppingListItemDto: CreateShoppingListItemDto, shoppingList: ShoppingList) {
+    const item = this.repo.create(createShoppingListItemDto);
+    item.shoppingList = shoppingList;
+    return this.repo.save(item);
   }
 
   findAll(shoppingList: ShoppingList) {
@@ -24,14 +21,27 @@ export class ShoppingListItemsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} shoppingListItem`;
+    return this.repo.findOneBy({ id });
   }
 
-  update(id: number, updateShoppingListItemDto: UpdateShoppingListItemDto) {
-    return `This action updates a #${id} shoppingListItem`;
+  async update(updateShoppingListItemDto: UpdateShoppingListItemDto) {
+    const item = await this.findOne(updateShoppingListItemDto.id);
+
+    if (!item) {
+      throw new NotFoundException('shopping list item not found');
+    }
+
+    // Object.assign(item, updateShoppingListItemDto);
+    return this.repo.save(item);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} shoppingListItem`;
+  async remove(id: number) {
+    const item = await this.findOne(id);
+
+    if (!item) {
+      throw new NotFoundException('shopping list item not found');
+    }
+
+    return this.repo.remove(item);
   }
 }
