@@ -5,30 +5,30 @@ import { UpdateShoppingListDto } from './dto/update-shopping-list.dto';
 
 @Controller('shopping-lists')
 export class ShoppingListsController {
-  constructor(private readonly shoppingListsService: ShoppingListsService) {}
+  constructor(private readonly listsService: ShoppingListsService) {}
 
   @Post()
-  create(@Body() createShoppingListDto: CreateShoppingListDto) {
-    return this.shoppingListsService.create(createShoppingListDto);
+  create(@Body() dto: CreateShoppingListDto) {
+    return this.listsService.create(dto);
   }
 
   @Get()
   findAll() {
-    return this.shoppingListsService.findAll();
+    return this.listsService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.shoppingListsService.findOne(+id);
+    return this.listsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShoppingListDto: UpdateShoppingListDto) {
-    return this.shoppingListsService.update(+id, updateShoppingListDto);
+  update(@Param('id') id: string, @Body() dto: UpdateShoppingListDto) {
+    return this.listsService.update(+id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.shoppingListsService.remove(+id);
+    return this.listsService.remove(+id);
   }
 }

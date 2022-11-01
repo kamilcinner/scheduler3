@@ -9,8 +9,8 @@ import { Repository } from 'typeorm';
 export class ShoppingListsService {
   constructor(@InjectRepository(ShoppingList) private readonly repo: Repository<ShoppingList>) {}
 
-  create(createShoppingListDto: CreateShoppingListDto) {
-    const shoppingList = this.repo.create(createShoppingListDto);
+  create(dto: CreateShoppingListDto) {
+    const shoppingList = this.repo.create(dto);
     return this.repo.save(shoppingList);
   }
 
@@ -22,14 +22,14 @@ export class ShoppingListsService {
     return this.repo.findOneBy({ id });
   }
 
-  async update(id: number, updateShoppingListDto: UpdateShoppingListDto) {
+  async update(id: number, dto: UpdateShoppingListDto) {
     const shoppingList = await this.findOne(id);
 
     if (!shoppingList) {
       throw new NotFoundException('shopping list not found');
     }
 
-    Object.assign(shoppingList, updateShoppingListDto);
+    Object.assign(shoppingList, dto);
     return this.repo.save(shoppingList);
   }
 

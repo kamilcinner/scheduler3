@@ -10,8 +10,8 @@ import { ShoppingList } from '../shopping-lists/entities/shopping-list.entity';
 export class ShoppingListItemsService {
   constructor(@InjectRepository(ShoppingListItem) private readonly repo: Repository<ShoppingListItem>) {}
 
-  create(createShoppingListItemDto: CreateShoppingListItemDto, shoppingList: ShoppingList) {
-    const item = this.repo.create(createShoppingListItemDto);
+  create(dto: CreateShoppingListItemDto, shoppingList: ShoppingList) {
+    const item = this.repo.create(dto);
     item.shoppingList = shoppingList;
     return this.repo.save(item);
   }
@@ -24,14 +24,14 @@ export class ShoppingListItemsService {
     return this.repo.findOneBy({ id });
   }
 
-  async update(updateShoppingListItemDto: UpdateShoppingListItemDto) {
-    const item = await this.findOne(updateShoppingListItemDto.id);
+  async update(dto: UpdateShoppingListItemDto) {
+    const item = await this.findOne(dto.id);
 
     if (!item) {
       throw new NotFoundException('shopping list item not found');
     }
 
-    // Object.assign(item, updateShoppingListItemDto);
+    Object.assign(item, dto);
     return this.repo.save(item);
   }
 

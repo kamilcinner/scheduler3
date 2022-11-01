@@ -4,7 +4,7 @@ export class ShoppingListItemDto {
   @Expose() id: number;
   @Expose() name: string;
 
-  // @Expose()
-  // @Transform(({ obj }) => obj.shoppingList.id)
-  // shoppingListId: number;
+  @Expose()
+  @Transform(({ obj }) => obj.shoppingList.id)
+  shoppingListId: number;
 }
