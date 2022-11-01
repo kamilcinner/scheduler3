@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseArrayPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  NotFoundException,
+  ParseArrayPipe,
+  Query,
+} from '@nestjs/common';
 import { ShoppingListItemsService } from './shopping-list-items.service';
 import { CreateShoppingListItemDto } from './dto/create-shopping-list-item.dto';
 import { UpdateShoppingListItemDto } from './dto/update-shopping-list-item.dto';
@@ -15,46 +26,46 @@ export class ShoppingListItemsController {
 
   @Post(':shoppingListId')
   @Serialize(ShoppingListItemDto)
-  async create(
+  async createMany(
     @Body(new ParseArrayPipe({ items: CreateShoppingListItemDto }))
     dtos: CreateShoppingListItemDto[],
     @Param('shoppingListId') shoppingListId: string,
   ) {
-    const shoppingList = await this.listsService.findOne(+shoppingListId);
+    const shoppingList = await this.listsService.findOneById(+shoppingListId);
 
     if (!shoppingList) {
       throw new NotFoundException('shopping list not found');
     }
 
-    return await Promise.all(dtos.map(async (dto) => await this.itemsService.create(dto, shoppingList)));
+    return await Promise.all(dtos.map(async (dto) => await this.itemsService.createOne(dto, shoppingList)));
   }
 
   @Get(':shoppingListId')
-  async findAll(@Param('shoppingListId') shoppingListId: string) {
-    const shoppingList = await this.listsService.findOne(+shoppingListId);
+  async findAllByShoppingListId(@Param('shoppingListId') shoppingListId: string) {
+    const shoppingList = await this.listsService.findOneById(+shoppingListId);
 
     if (!shoppingList) {
       throw new NotFoundException('shopping list not found');
     }
 
-    return await this.itemsService.findAll(shoppingList);
+    return await this.itemsService.findAllByShoppingList(shoppingList);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.itemsService.findOne(+id);
+  findOneById(@Param('id') id: string) {
+    return this.itemsService.findOneById(+id);
   }
 
   @Patch()
-  async update(
+  async updateMany(
     @Body(new ParseArrayPipe({ items: UpdateShoppingListItemDto }))
     dtos: UpdateShoppingListItemDto[],
   ) {
-    return await Promise.all(dtos.map(async (dto) => await this.itemsService.update(dto)));
+    return await Promise.all(dtos.map(async (dto) => await this.itemsService.updateOne(dto)));
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.itemsService.remove(+id);
+  @Delete()
+  async removeByIds(@Query('ids', new ParseArrayPipe({ items: Number, separator: ',' })) ids: number[]) {
+    return await Promise.all(ids.map((id) => this.itemsService.removeById(id)));
   }
 }

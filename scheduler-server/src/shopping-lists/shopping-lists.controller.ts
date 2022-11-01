@@ -18,17 +18,17 @@ export class ShoppingListsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listsService.findOne(+id);
+  findOneById(@Param('id') id: string) {
+    return this.listsService.findOneById(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateShoppingListDto) {
-    return this.listsService.update(+id, dto);
+  updateById(@Param('id') id: string, @Body() dto: UpdateShoppingListDto) {
+    return this.listsService.updateById(+id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.listsService.remove(+id);
+  removeById(@Param('id') id: string) {
+    return this.listsService.removeById(+id);
   }
 }

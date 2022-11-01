@@ -18,12 +18,12 @@ export class ShoppingListsService {
     return this.repo.find();
   }
 
-  findOne(id: number) {
+  findOneById(id: number) {
     return this.repo.findOneBy({ id });
   }
 
-  async update(id: number, dto: UpdateShoppingListDto) {
-    const shoppingList = await this.findOne(id);
+  async updateById(id: number, dto: UpdateShoppingListDto) {
+    const shoppingList = await this.findOneById(id);
 
     if (!shoppingList) {
       throw new NotFoundException('shopping list not found');
@@ -33,8 +33,8 @@ export class ShoppingListsService {
     return this.repo.save(shoppingList);
   }
 
-  async remove(id: number) {
-    const shoppingList = await this.findOne(id);
+  async removeById(id: number) {
+    const shoppingList = await this.findOneById(id);
 
     if (!shoppingList) {
       throw new NotFoundException('shopping list not found');
