@@ -4,11 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@core/core.module';
+import { FeaturesModule } from './features/features.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, CoreModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, CoreModule, FeaturesModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
