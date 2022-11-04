@@ -6,6 +6,7 @@ import { ShoppingListsComponent } from './shopping-lists.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingListDetailsComponent } from './shopping-list-details/shopping-list-details.component';
 import { ShoppingListItemComponent } from './shopping-list-item/shopping-list-item.component';
+import { ShoppingListsService } from './shopping-lists.service';
 
 @NgModule({
   declarations: [
@@ -15,5 +16,6 @@ import { ShoppingListItemComponent } from './shopping-list-item/shopping-list-it
     ShoppingListItemComponent,
   ],
   imports: [CommonModule, ShoppingListsRoutingModule],
+  providers: [ShoppingListsService],
 })
 export class ShoppingListsModule {}

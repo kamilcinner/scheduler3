@@ -20,7 +20,7 @@ import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({
-      storage: StorageOption.LocalStorage,
+      storage: StorageOption.SessionStorage,
     }),
   ],
 })
