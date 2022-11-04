@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext } from '@ngxs/store';
+import { State, Action, StateContext, Selector, NgxsOnInit } from '@ngxs/store';
 import { ShoppingLists } from './shopping-lists.actions';
 import { ShoppingListModel } from '../models/shopping-list.model';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
@@ -9,6 +9,7 @@ import { catchError, switchMap } from 'rxjs';
 
 export type ShoppingListsStateModel = {
   shoppingLists: ShoppingListModel[];
+  selectedShoppingList?: ShoppingListModel;
 };
 
 const defaults = {
@@ -20,8 +21,22 @@ const defaults = {
   defaults,
 })
 @Injectable()
-export class ShoppingListsState {
+export class ShoppingListsState implements NgxsOnInit {
+  @Selector([ShoppingListsState.getShoppingLists])
+  static getViewShoppingLists(shoppingLists: ShoppingListModel[]) {
+    return shoppingLists;
+  }
+
+  @Selector([ShoppingListsState])
+  private static getShoppingLists(state: ShoppingListsStateModel) {
+    return state.shoppingLists;
+  }
+
   constructor(private readonly service: ShoppingListsService) {}
+
+  ngxsOnInit({ dispatch }: StateContext<ShoppingListsStateModel>): void {
+    dispatch(new ShoppingLists.GetAll());
+  }
 
   @Action(ShoppingLists.Create)
   create({ dispatch }: StateContext<ShoppingListsStateModel>, { dto }: ShoppingLists.Create) {

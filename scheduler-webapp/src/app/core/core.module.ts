@@ -10,6 +10,10 @@ import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
   imports: [
     NgxsModule.forRoot([], {
       developmentMode: !environment.production,
+      selectorOptions: {
+        injectContainerState: false,
+        suppressErrors: false,
+      },
     }),
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production,
