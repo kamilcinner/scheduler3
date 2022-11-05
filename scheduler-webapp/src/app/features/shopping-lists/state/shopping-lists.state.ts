@@ -6,14 +6,13 @@ import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators
 import { ShoppingListsAPI } from './shopping-lists-api.actions';
 import { ShoppingListsService } from '../shopping-lists.service';
 import { catchError, switchMap } from 'rxjs';
+import { EntitiesStateModel } from '@shared/models';
+import { EntitiesState } from '@shared/state/entities.state';
 
-export type ShoppingListsStateModel = {
-  shoppingLists: ShoppingListModel[];
-  selectedShoppingList?: ShoppingListModel;
-};
+export type ShoppingListsStateModel = EntitiesStateModel<ShoppingListModel>;
 
 const defaults = {
-  shoppingLists: [],
+  entities: [],
 };
 
 @State<ShoppingListsStateModel>({
@@ -21,18 +20,15 @@ const defaults = {
   defaults,
 })
 @Injectable()
-export class ShoppingListsState implements NgxsOnInit {
-  @Selector([ShoppingListsState.getShoppingLists])
-  static getViewShoppingLists(shoppingLists: ShoppingListModel[]) {
-    return shoppingLists;
+export class ShoppingListsState extends EntitiesState implements NgxsOnInit {
+  @Selector([ShoppingListsState.entities<ShoppingListModel>()])
+  static shoppingLists(entities: ShoppingListModel[]) {
+    return entities;
   }
 
-  @Selector([ShoppingListsState])
-  private static getShoppingLists(state: ShoppingListsStateModel) {
-    return state.shoppingLists;
+  constructor(private readonly service: ShoppingListsService) {
+    super();
   }
-
-  constructor(private readonly service: ShoppingListsService) {}
 
   ngxsOnInit({ dispatch }: StateContext<ShoppingListsStateModel>): void {
     dispatch(new ShoppingLists.GetAll());
@@ -51,7 +47,7 @@ export class ShoppingListsState implements NgxsOnInit {
     { setState }: StateContext<ShoppingListsStateModel>,
     { createdShoppingList }: ShoppingListsAPI.CreateSuccess,
   ) {
-    setState(patch<ShoppingListsStateModel>({ shoppingLists: insertItem(createdShoppingList) }));
+    setState(patch<ShoppingListsStateModel>({ entities: insertItem(createdShoppingList) }));
   }
 
   @Action(ShoppingLists.GetAll)
@@ -67,7 +63,7 @@ export class ShoppingListsState implements NgxsOnInit {
     { patchState }: StateContext<ShoppingListsStateModel>,
     { shoppingLists }: ShoppingListsAPI.GetAllSuccess,
   ) {
-    patchState({ shoppingLists });
+    patchState({ entities: shoppingLists });
   }
 
   @Action(ShoppingLists.Update)
@@ -85,7 +81,7 @@ export class ShoppingListsState implements NgxsOnInit {
   ) {
     setState(
       patch<ShoppingListsStateModel>({
-        shoppingLists: updateItem((shoppingList) => shoppingList?.id === updatedShoppingList.id, updatedShoppingList),
+        entities: updateItem((shoppingList) => shoppingList?.id === updatedShoppingList.id, updatedShoppingList),
       }),
     );
   }
@@ -105,8 +101,13 @@ export class ShoppingListsState implements NgxsOnInit {
   ) {
     setState(
       patch<ShoppingListsStateModel>({
-        shoppingLists: removeItem((shoppingList) => shoppingList?.id === removedShoppingList.id),
+        entities: removeItem((shoppingList) => shoppingList?.id === removedShoppingList.id),
       }),
     );
+  }
+
+  @Action(ShoppingLists.Select)
+  select({ patchState }: StateContext<ShoppingListsStateModel>, { selectedShoppingList }: ShoppingLists.Select) {
+    patchState({ selectedEntity: selectedShoppingList });
   }
 }

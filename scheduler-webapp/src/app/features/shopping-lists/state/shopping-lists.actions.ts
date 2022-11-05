@@ -1,5 +1,6 @@
 import { CreateShoppingListDto } from '../dto/create-shopping-list.dto';
 import { UpdateShoppingListDto } from '../dto/update-shopping-list.dto';
+import { ShoppingListModel } from '../models/shopping-list.model';
 
 export namespace ShoppingLists {
   export class Create {
@@ -19,5 +20,10 @@ export namespace ShoppingLists {
   export class Remove {
     static readonly type = '[ShoppingLists] Remove';
     constructor(public id: number) {}
+  }
+
+  export class Select {
+    static readonly type = '[ShoppingLists] Select';
+    constructor(public selectedShoppingList: ShoppingListModel) {}
   }
 }

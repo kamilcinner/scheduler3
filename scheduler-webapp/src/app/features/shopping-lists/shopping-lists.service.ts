@@ -14,22 +14,22 @@ export class ShoppingListsService extends HttpService {
   }
 
   create(dto: CreateShoppingListDto): Observable<ShoppingListModel> {
-    return this.post<ShoppingListModel>(FeatureUrl.SHOPPING_LISTS, dto);
+    return this.post<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}`, dto);
   }
 
   getAll(): Observable<ShoppingListModel[]> {
-    return this.get<ShoppingListModel[]>(FeatureUrl.SHOPPING_LISTS);
+    return this.get<ShoppingListModel[]>(`/${FeatureUrl.SHOPPING_LISTS}`);
   }
 
   getOne(id: number): Observable<ShoppingListModel> {
-    return this.get<ShoppingListModel>(`${FeatureUrl.SHOPPING_LISTS}/${id}`);
+    return this.get<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
   }
 
   update(id: number, dto: UpdateShoppingListDto): Observable<ShoppingListModel> {
-    return this.patch<ShoppingListModel>(`${FeatureUrl.SHOPPING_LISTS}/${id}`, dto);
+    return this.patch<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`, dto);
   }
 
   remove(id: number): Observable<ShoppingListModel> {
-    return this.delete<ShoppingListModel>(`${FeatureUrl.SHOPPING_LISTS}/${id}`);
+    return this.delete<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
   }
 }
