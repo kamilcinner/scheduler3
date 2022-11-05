@@ -1,33 +1,14 @@
 import { NgModule } from '@angular/core';
-import { NgxsModule } from '@ngxs/store';
-import { environment } from '@env';
-import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
-import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from '@core/components/header/header.component';
+import { SidenavComponent } from '@core/components/sidenav/sidenav.component';
+import { SharedModule } from '@shared/shared.module';
+import { LanguageModule } from '@core/language.module';
+import { StoreModule } from '@core/store.module';
 
 @NgModule({
-  imports: [
-    HttpClientModule,
-    NgxsModule.forRoot([], {
-      developmentMode: !environment.production,
-      selectorOptions: {
-        injectContainerState: false,
-        suppressErrors: false,
-      },
-    }),
-    NgxsLoggerPluginModule.forRoot({
-      disabled: environment.production,
-      collapsed: true,
-    }),
-    NgxsReduxDevtoolsPluginModule.forRoot({
-      disabled: environment.production,
-    }),
-    NgxsRouterPluginModule.forRoot(),
-    NgxsStoragePluginModule.forRoot({
-      storage: StorageOption.SessionStorage,
-    }),
-  ],
+  declarations: [HeaderComponent, SidenavComponent],
+  imports: [HttpClientModule, SharedModule, LanguageModule, StoreModule],
+  exports: [HeaderComponent, SidenavComponent],
 })
 export class CoreModule {}
