@@ -1,10 +1,18 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <mat-list>
-    <mat-list-item *ngFor="let shoppingList of vm.shoppingLists" (click)="onClickShoppingList(shoppingList)">
+  <mat-list class="m-3">
+    <mat-list-item
+      *ngFor="let shoppingList of vm.shoppingLists"
+      matRipple
+      class="shopping-list mb-3 rounded-2"
+      (click)="onClickShoppingList(shoppingList)"
+    >
       <h3 matLine>{{ shoppingList.name }}</h3>
-      <p matLine>{{ shoppingList.lastEditDateTime | date }}</p>
-      <p matLine *ngIf="shoppingList.items as items">
-        <span *ngFor="let item of items">{{ item.name }}</span>
+      <p matLine class="d-inline-flex justify-content-between">
+        <span>{{ shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_DATE }}</span>
+        <span>{{ shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_TIME }}</span>
+      </p>
+      <p matLine class="items">
+        <span *ngFor="let item of shoppingList.items" class="item">{{ item.name }}</span>
       </p>
     </mat-list-item>
   </mat-list>

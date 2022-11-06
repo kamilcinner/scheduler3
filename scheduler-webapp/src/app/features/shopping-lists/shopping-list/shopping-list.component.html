@@ -1,5 +1,0 @@
-<h3 matLine>{{ shoppingList.name }}</h3>
-<p matLine>{{ shoppingList.lastEditDateTime | date }}</p>
-<p matLine *ngIf="shoppingList.items as items">
-  <span *ngFor="let item of items">{{ item.name }}</span>
-</p>

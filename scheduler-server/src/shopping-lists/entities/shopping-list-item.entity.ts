@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ShoppingList } from '../../shopping-lists/entities/shopping-list.entity';
+import { ShoppingList } from './shopping-list.entity';
 
 @Entity()
 export class ShoppingListItem {
@@ -7,6 +7,6 @@ export class ShoppingListItem {
 
   @Column() name: string;
 
-  @ManyToOne(() => ShoppingList, (shoppingList) => shoppingList.shoppingListItems)
+  @ManyToOne(() => ShoppingList, (shoppingList) => shoppingList.items)
   shoppingList: ShoppingList;
 }

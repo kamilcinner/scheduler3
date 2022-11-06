@@ -1,1 +1,1 @@
-export * from './entities-state.model';
+export * from './entity-state.model';

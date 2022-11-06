@@ -4,5 +4,5 @@ export type ShoppingListModel = {
   id: number;
   name: string;
   lastEditDateTime: Date;
-  items?: ShoppingListItemModel[];
+  items: ShoppingListItemModel[];
 };

@@ -5,10 +5,9 @@ import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './tasks/entities/task.entity';
 import { ShoppingListsModule } from './shopping-lists/shopping-lists.module';
-import { ShoppingListItemsModule } from './shopping-list-items/shopping-list-items.module';
 import { ShoppingList } from './shopping-lists/entities/shopping-list.entity';
-import { ShoppingListItem } from './shopping-list-items/entities/shopping-list-item.entity';
 import { APP_PIPE } from '@nestjs/core';
+import { ShoppingListItem } from './shopping-lists/entities/shopping-list-item.entity';
 
 @Module({
   imports: [
@@ -20,7 +19,7 @@ import { APP_PIPE } from '@nestjs/core';
       entities: [Task, ShoppingList, ShoppingListItem],
     }),
     ShoppingListsModule,
-    ShoppingListItemsModule,
+    // ShoppingListItemsModule,
   ],
   controllers: [AppController],
   providers: [

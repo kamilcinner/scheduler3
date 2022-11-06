@@ -6,10 +6,10 @@ import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators
 import { ShoppingListsAPI } from './shopping-lists-api.actions';
 import { ShoppingListsService } from '../shopping-lists.service';
 import { catchError, switchMap } from 'rxjs';
-import { EntitiesStateModel } from '@shared/models';
-import { EntitiesState } from '@shared/state/entities.state';
+import { EntityStateModel } from '@shared/models';
+import { EntityState } from '@shared/state/entity.state';
 
-export type ShoppingListsStateModel = EntitiesStateModel<ShoppingListModel>;
+export type ShoppingListsStateModel = EntityStateModel<ShoppingListModel>;
 
 const defaults = {
   entities: [],
@@ -20,10 +20,15 @@ const defaults = {
   defaults,
 })
 @Injectable()
-export class ShoppingListsState extends EntitiesState implements NgxsOnInit {
+export class ShoppingListsState extends EntityState implements NgxsOnInit {
   @Selector([ShoppingListsState.entities<ShoppingListModel>()])
   static shoppingLists(entities: ShoppingListModel[]) {
     return entities;
+  }
+
+  @Selector([ShoppingListsState.selectedEntity<ShoppingListModel>()])
+  static selectedShoppingList(selectedEntity: ShoppingListModel) {
+    return selectedEntity;
   }
 
   constructor(private readonly service: ShoppingListsService) {

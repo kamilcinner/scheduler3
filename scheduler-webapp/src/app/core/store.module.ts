@@ -16,7 +16,7 @@ import { NgxsStoragePluginModule, StorageOption } from '@ngxs/storage-plugin';
       },
     }),
     NgxsLoggerPluginModule.forRoot({
-      disabled: environment.production,
+      disabled: environment.production || true, // todo
       collapsed: true,
     }),
     NgxsReduxDevtoolsPluginModule.forRoot({

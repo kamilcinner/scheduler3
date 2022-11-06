@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateShoppingListDto } from './dto/create-shopping-list.dto';
-import { UpdateShoppingListDto } from './dto/update-shopping-list.dto';
+import { UpdateShoppingListDto, CreateShoppingListDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ShoppingList } from './entities/shopping-list.entity';
+import { ShoppingList } from './entities';
 import { Repository } from 'typeorm';
 
 @Injectable()
