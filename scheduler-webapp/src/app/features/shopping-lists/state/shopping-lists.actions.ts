@@ -1,6 +1,5 @@
-import { CreateShoppingListDto } from '../dto/create-shopping-list.dto';
-import { UpdateShoppingListDto } from '../dto/update-shopping-list.dto';
-import { ShoppingListModel } from '../models/shopping-list.model';
+import { CreateShoppingListDto, UpdateShoppingListDto } from '../dto';
+import { ShoppingListModel, ShoppingListItemModel } from '../models';
 
 export namespace ShoppingLists {
   export class Create {
@@ -25,5 +24,10 @@ export namespace ShoppingLists {
   export class Select {
     static readonly type = '[ShoppingLists] Select';
     constructor(public selectedShoppingList: ShoppingListModel) {}
+  }
+
+  export class ToggleItemBought {
+    static readonly type = '[ShoppingLists] ToggleItemBought';
+    constructor(public item: ShoppingListItemModel) {}
   }
 }

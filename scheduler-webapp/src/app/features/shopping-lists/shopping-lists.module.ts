@@ -6,9 +6,10 @@ import { ShoppingListsService } from './shopping-lists.service';
 import { SharedModule } from '@shared/shared.module';
 import { NgxsModule } from '@ngxs/store';
 import { ShoppingListsState } from './state/shopping-lists.state';
+import { ShoppingListEditComponent } from './shopping-list-edit/shopping-list-edit.component';
 
 @NgModule({
-  declarations: [ShoppingListsComponent, ShoppingListDetailsComponent],
+  declarations: [ShoppingListsComponent, ShoppingListDetailsComponent, ShoppingListEditComponent],
   imports: [SharedModule, ShoppingListsRoutingModule, NgxsModule.forFeature([ShoppingListsState])],
   providers: [ShoppingListsService],
 })

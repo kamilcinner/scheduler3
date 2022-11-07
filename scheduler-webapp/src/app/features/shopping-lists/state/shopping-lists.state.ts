@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector, NgxsOnInit } from '@ngxs/store';
 import { ShoppingLists } from './shopping-lists.actions';
-import { ShoppingListModel } from '../models/shopping-list.model';
+import { ShoppingListModel } from '../models';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { ShoppingListsAPI } from './shopping-lists-api.actions';
 import { ShoppingListsService } from '../shopping-lists.service';

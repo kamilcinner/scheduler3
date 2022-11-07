@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ShoppingListsState } from '../state/shopping-lists.state';
 import { Observable, combineLatest, map } from 'rxjs';
-import { ShoppingListModel } from '../models/shopping-list.model';
-import { ShoppingListItemModel } from '../models/shopping-list-item.model';
+import { ShoppingListModel, ShoppingListItemModel } from '../models';
+import { Navigate } from '@ngxs/router-plugin';
+import { ActivatedRoute } from '@angular/router';
+import { ShoppingLists } from '../state/shopping-lists.actions';
 
 @Component({
   selector: 'app-shopping-list-details',
@@ -18,7 +20,13 @@ export class ShoppingListDetailsComponent {
     map(([selectedShoppingList]) => ({ selectedShoppingList })),
   );
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store, private readonly route: ActivatedRoute) {}
 
-  onClickRemove(item: ShoppingListItemModel): void {}
+  onClickItem(item: ShoppingListItemModel): void {
+    this.store.dispatch(new ShoppingLists.ToggleItemBought(item));
+  }
+
+  onClickEdit(): void {
+    this.store.dispatch(new Navigate(['edit'], {}, { relativeTo: this.route.parent }));
+  }
 }

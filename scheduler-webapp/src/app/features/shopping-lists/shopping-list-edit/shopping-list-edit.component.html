@@ -1,0 +1,18 @@
+<form *ngIf="vm$ | async as vm">
+  <mat-list class="list m-3">
+    <mat-list-item *ngFor="let item of vm.selectedShoppingList.items" class="item" [class.bought]="item.bought">
+      <p matLine class="d-inline-flex align-items-center">
+        <span matRipple class="d-inline-flex align-items-center gap-2 flex-grow-1 p-1 rounded-2">
+          <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
+          <mat-form-field>
+            <input matInput />
+          </mat-form-field>
+          <!--          <span>{{ item.name }}</span>-->
+        </span>
+        <button mat-icon-button color="warn" (click)="onClickRemove(item)">
+          <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+        </button>
+      </p>
+    </mat-list-item>
+  </mat-list>
+</form>
