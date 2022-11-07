@@ -1,18 +1,26 @@
-<form *ngIf="vm$ | async as vm">
-  <mat-list class="list m-3">
-    <mat-list-item *ngFor="let item of vm.selectedShoppingList.items" class="item" [class.bought]="item.bought">
+<form *ngIf="form" [formGroup]="form">
+  <mat-list class="list m-3" formArrayName="items">
+    <mat-list-item
+      *ngFor="let itemFormGroup of form.controls.items.controls; index as controlIndex"
+      [formGroupName]="controlIndex"
+      class="item"
+      [class.bought]="itemFormGroup.controls.bought.value"
+    >
       <p matLine class="d-inline-flex align-items-center">
         <span matRipple class="d-inline-flex align-items-center gap-2 flex-grow-1 p-1 rounded-2">
           <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
           <mat-form-field>
-            <input matInput />
+            <input matInput formControlName="name" />
           </mat-form-field>
-          <!--          <span>{{ item.name }}</span>-->
         </span>
-        <button mat-icon-button color="warn" (click)="onClickRemove(item)">
+        <button mat-icon-button color="warn" (click)="onClickRemove(itemFormGroup.getRawValue(), controlIndex)">
           <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
         </button>
       </p>
     </mat-list-item>
   </mat-list>
+
+  <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickAdd()">
+    <span translate="button.add"></span>
+  </button>
 </form>

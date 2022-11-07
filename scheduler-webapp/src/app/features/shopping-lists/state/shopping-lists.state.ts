@@ -9,7 +9,9 @@ import { catchError, switchMap } from 'rxjs';
 import { EntityStateModel } from '@shared/models';
 import { EntityState } from '@shared/state/entity.state';
 
-export type ShoppingListsStateModel = EntityStateModel<ShoppingListModel>;
+export interface ShoppingListsStateModel extends EntityStateModel<ShoppingListModel> {
+  editingEntity?: ShoppingListModel;
+}
 
 const defaults = {
   entities: [],

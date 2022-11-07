@@ -4,6 +4,7 @@
     "tasks": "Tasks"
   },
   "button": {
-    "edit": "Edit"
+    "edit": "Edit",
+    "add": "Add"
   }
 }
