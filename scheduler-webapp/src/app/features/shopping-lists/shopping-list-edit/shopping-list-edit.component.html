@@ -1,8 +1,8 @@
-<form *ngIf="form" [formGroup]="form">
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-list class="list m-3" formArrayName="items">
     <mat-list-item
-      *ngFor="let itemFormGroup of form.controls.items.controls; index as controlIndex"
-      [formGroupName]="controlIndex"
+      *ngFor="let itemFormGroup of form.controls.items.controls; index as itemFormGroupIndex"
+      [formGroupName]="itemFormGroupIndex"
       class="item"
       [class.bought]="itemFormGroup.controls.bought.value"
     >
@@ -13,7 +13,7 @@
             <input matInput formControlName="name" />
           </mat-form-field>
         </span>
-        <button mat-icon-button color="warn" (click)="onClickRemove(itemFormGroup.getRawValue(), controlIndex)">
+        <button mat-icon-button color="warn" (click)="onClickRemove(itemFormGroupIndex)">
           <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
         </button>
       </p>
@@ -22,5 +22,9 @@
 
   <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickAdd()">
     <span translate="button.add"></span>
+  </button>
+
+  <button mat-raised-button color="primary" class="d-block mx-auto" type="submit">
+    <span translate="button.save"></span>
   </button>
 </form>

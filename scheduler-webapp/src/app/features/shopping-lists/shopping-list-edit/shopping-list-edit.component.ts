@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ShoppingListsState } from '../state/shopping-lists.state';
-import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { ShoppingListItemModel, ShoppingListModel } from '../models';
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { EntityFormControlsModel } from '@shared/models';
+import { ShoppingLists } from '../state/shopping-lists.actions';
 
-type ItemsForm = FormGroup<{ items: FormArray<FormGroup<EntityFormControlsModel<ShoppingListItemModel>>> }>;
+type ItemsFormArray = FormArray<FormGroup<EntityFormControlsModel<ShoppingListItemModel>>>;
+type ItemsForm = FormGroup<{ items: ItemsFormArray }>;
 
 @Component({
   selector: 'app-shopping-list-edit',
@@ -18,15 +20,19 @@ export class ShoppingListEditComponent implements OnInit {
   @Select(ShoppingListsState.selectedShoppingList)
   private readonly selectedShoppingList$!: Observable<ShoppingListModel>;
 
-  // readonly vm$ = combineLatest([this.selectedShoppingList$]).pipe(
-  //   map(([selectedShoppingList]) => ({ selectedShoppingList })),
-  // );
   form?: ItemsForm;
 
   private readonly destroyed$ = new Subject<void>();
-  private readonly idsToRemove: number[] = [];
 
   constructor(private readonly store: Store, private readonly fb: NonNullableFormBuilder) {}
+
+  private get formItemsArray(): ItemsFormArray | undefined {
+    return this.form?.controls.items;
+  }
+
+  private get formItems(): ShoppingListItemModel[] {
+    return this.form?.controls.items.getRawValue() ?? [];
+  }
 
   ngOnInit(): void {
     this.selectedShoppingList$.pipe(takeUntil(this.destroyed$)).subscribe((selectedShoppingList) => {
@@ -34,9 +40,8 @@ export class ShoppingListEditComponent implements OnInit {
     });
   }
 
-  onClickRemove(item: ShoppingListItemModel, controlIndex: number): void {
-    this.idsToRemove.push(item.id);
-    this.form?.controls.items.removeAt(controlIndex);
+  onClickRemove(itemFormGroupIndex: number): void {
+    this.form?.controls.items.removeAt(itemFormGroupIndex);
   }
 
   onClickAdd(): void {
@@ -46,6 +51,28 @@ export class ShoppingListEditComponent implements OnInit {
         name: this.fb.control(''),
         bought: this.fb.control(false),
       }),
+    );
+  }
+
+  onSubmit(): void {
+    const createdShoppingListItems = this.formItems.filter((item) => item.id === -1);
+
+    const updatedShoppingListItems =
+      this.formItemsArray?.controls
+        .filter((itemGroup) => itemGroup.controls.id.value > 0 && itemGroup.dirty)
+        .map((itemGroup) => itemGroup.getRawValue()) ?? [];
+
+    const removedShoppingListItemsIds = this.store
+      .selectSnapshot(ShoppingListsState.selectedShoppingList)
+      .items.filter((item) => !this.formItems.some((formItem) => formItem.id === item.id))
+      .map((item) => item.id);
+
+    this.store.dispatch(
+      new ShoppingLists.UpdateShoppingListItems(
+        createdShoppingListItems,
+        updatedShoppingListItems,
+        removedShoppingListItemsIds,
+      ),
     );
   }
 
