@@ -5,7 +5,7 @@ import { ShoppingListModel } from '../models';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { ShoppingListsAPI } from './shopping-lists-api.actions';
 import { ShoppingListsService } from '../shopping-lists.service';
-import { catchError, switchMap } from 'rxjs';
+import { catchError, EMPTY, switchMap } from 'rxjs';
 import { EntityStateModel } from '@shared/models';
 import { EntityState } from '@shared/state/entity.state';
 
@@ -90,6 +90,21 @@ export class ShoppingListsState extends EntityState implements NgxsOnInit {
       patch<ShoppingListsStateModel>({
         entities: updateItem((shoppingList) => shoppingList?.id === updatedShoppingList.id, updatedShoppingList),
       }),
+    );
+  }
+
+  @Action(ShoppingLists.UpdateShoppingListItems)
+  updateShoppingListItems(
+    { getState, dispatch }: StateContext<ShoppingListsStateModel>,
+    { dto }: ShoppingLists.UpdateShoppingListItems,
+  ) {
+    const selectedShoppingListId = getState().selectedEntity?.id;
+    if (!selectedShoppingListId) {
+      return EMPTY; // todo: maybe some message
+    }
+    return this.service.updateShoppingListItems(selectedShoppingListId, dto).pipe(
+      switchMap((responseDto) => dispatch(new ShoppingListsAPI.UpdateShoppingListItemsSuccess(responseDto))),
+      catchError((err) => dispatch(new ShoppingListsAPI.UpdateShoppingListItemsFailed(err))),
     );
   }
 

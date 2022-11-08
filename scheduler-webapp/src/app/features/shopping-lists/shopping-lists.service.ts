@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@core/services/http.service';
 import { HttpClient } from '@angular/common/http';
-import { CreateShoppingListDto } from './dto/create-shopping-list.dto';
+import {
+  CreateShoppingListDto,
+  UpdateShoppingListDto,
+  UpdateShoppingListItemsDto,
+  UpdateShoppingListItemsResponseDto,
+} from './dto';
 import { Observable } from 'rxjs';
-import { ShoppingListModel } from './models/shopping-list.model';
+import { ShoppingListItemModel, ShoppingListModel } from './models';
 import { FeatureUrl } from '@shared/enums';
-import { UpdateShoppingListDto } from './dto/update-shopping-list.dto';
 
 @Injectable()
 export class ShoppingListsService extends HttpService {
@@ -27,6 +31,13 @@ export class ShoppingListsService extends HttpService {
 
   update(id: number, dto: UpdateShoppingListDto): Observable<ShoppingListModel> {
     return this.patch<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`, dto);
+  }
+
+  updateShoppingListItems(
+    shoppingListId: number,
+    dto: UpdateShoppingListItemsDto,
+  ): Observable<UpdateShoppingListItemsResponseDto> {
+    return this.patch<UpdateShoppingListItemsResponseDto>(`${shoppingListId}/items`, dto);
   }
 
   remove(id: number): Observable<ShoppingListModel> {

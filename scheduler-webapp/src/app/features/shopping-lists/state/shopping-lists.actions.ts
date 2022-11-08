@@ -3,6 +3,7 @@ import {
   CreateShoppingListItemDto,
   UpdateShoppingListDto,
   UpdateShoppingListItemDto,
+  UpdateShoppingListItemsDto,
 } from '../dto';
 import { ShoppingListModel, ShoppingListItemModel } from '../models';
 
@@ -38,10 +39,6 @@ export namespace ShoppingLists {
 
   export class UpdateShoppingListItems {
     static readonly type = '[ShoppingLists] UpdateShoppingListItems';
-    constructor(
-      public createShoppingListItemDtos: CreateShoppingListItemDto[],
-      public updateShoppingListItemDtos: UpdateShoppingListItemDto[],
-      public removedShoppingListItemsIds: number[],
-    ) {}
+    constructor(public dto: UpdateShoppingListItemsDto) {}
   }
 }

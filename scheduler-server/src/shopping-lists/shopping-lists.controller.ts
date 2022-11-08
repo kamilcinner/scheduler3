@@ -6,6 +6,7 @@ import {
   ShoppingListItemDto,
   CreateShoppingListItemDto,
   UpdateShoppingListItemDto,
+  UpdateShoppingListItemsDto,
 } from './dto';
 import { ShoppingListItemsService } from './shopping-list-items.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -78,14 +79,36 @@ export class ShoppingListsController {
     return this.shoppingListsService.update(+id, updateShoppingListDto);
   }
 
-  @Patch()
+  @Patch(':shoppingListId/items')
   async updateShoppingListItems(
-    @Body(new ParseArrayPipe({ items: UpdateShoppingListItemDto }))
-    updateShoppingListItemDtos: UpdateShoppingListItemDto[],
+    @Param('shoppingListId') id: string,
+    @Body() updateShoppingListItemsDto: UpdateShoppingListItemsDto,
   ) {
-    return await Promise.all(
-      updateShoppingListItemDtos.map(async (dto) => await this.shoppingListItemsService.update(dto)),
+    const shoppingList = await this.shoppingListsService.findOne(+id);
+
+    if (!shoppingList) {
+      throw new NotFoundException('shopping list not found');
+    }
+
+    const createdShoppingListItems = await Promise.all(
+      updateShoppingListItemsDto.createShoppingListItemDtos.map(async (dto) =>
+        this.shoppingListItemsService.create(dto, shoppingList),
+      ),
     );
+    const updatedShoppingListItems = await Promise.all(
+      updateShoppingListItemsDto.updateShoppingListItemDtos.map(async (dto) =>
+        this.shoppingListItemsService.update(dto),
+      ),
+    );
+    const removedShoppingListItems = await Promise.all(
+      updateShoppingListItemsDto.removeShoppingListItemsIds.map(async (id) => this.shoppingListItemsService.remove(id)),
+    );
+
+    return {
+      createdShoppingListItems,
+      updatedShoppingListItems,
+      removedShoppingListItems,
+    };
   }
 
   @Delete(':id')

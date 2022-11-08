@@ -1,5 +1,6 @@
 import { ShoppingListModel } from '../models/shopping-list.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UpdateShoppingListItemsResponseDto } from '../dto';
 
 export namespace ShoppingListsAPI {
   export class CreateSuccess {
@@ -19,7 +20,7 @@ export namespace ShoppingListsAPI {
 
   export class GetAllFailed {
     static readonly type = '[ShoppingLists] GetAllFailed';
-    constructor(public error: HttpErrorResponse[]) {}
+    constructor(public error: HttpErrorResponse) {}
   }
 
   export class UpdateSuccess {
@@ -29,7 +30,17 @@ export namespace ShoppingListsAPI {
 
   export class UpdateFailed {
     static readonly type = '[ShoppingLists] UpdateFailed';
-    constructor(public error: HttpErrorResponse[]) {}
+    constructor(public error: HttpErrorResponse) {}
+  }
+
+  export class UpdateShoppingListItemsSuccess {
+    static readonly type = '[ShoppingLists] UpdateShoppingListItemsSuccess';
+    constructor(public updatedShoppingListItemsResponseDto: UpdateShoppingListItemsResponseDto) {}
+  }
+
+  export class UpdateShoppingListItemsFailed {
+    static readonly type = '[ShoppingLists] UpdateShoppingListItemsFailed';
+    constructor(public error: HttpErrorResponse) {}
   }
 
   export class RemoveSuccess {
@@ -39,6 +50,6 @@ export namespace ShoppingListsAPI {
 
   export class RemoveFailed {
     static readonly type = '[ShoppingLists] RemoveFailed';
-    constructor(public error: HttpErrorResponse[]) {}
+    constructor(public error: HttpErrorResponse) {}
   }
 }
