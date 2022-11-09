@@ -55,24 +55,27 @@ export class ShoppingListEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const createdShoppingListItems = this.formItems.filter((item) => item.id === -1);
+    const createShoppingListItemDtos = this.formItems.filter((item) => item.id === -1).map(({ name }) => ({ name }));
 
-    const updatedShoppingListItems =
+    const updateShoppingListItemDtos =
       this.formItemsArray?.controls
         .filter((itemGroup) => itemGroup.controls.id.value > 0 && itemGroup.dirty)
-        .map((itemGroup) => itemGroup.getRawValue()) ?? [];
+        .map((itemGroup) => itemGroup.getRawValue())
+        .map(({ name }) => ({ name })) ?? [];
 
-    const removedShoppingListItemsIds = this.store
+    const removeShoppingListItemsIds = this.store
       .selectSnapshot(ShoppingListsState.selectedShoppingList)
       .items.filter((item) => !this.formItems.some((formItem) => formItem.id === item.id))
       .map((item) => item.id);
 
+    // todo: if all arrays are empty, that means nothing changed - don't send request and show toast
+
     this.store.dispatch(
-      new ShoppingLists.UpdateShoppingListItems(
-        createdShoppingListItems,
-        updatedShoppingListItems,
-        removedShoppingListItemsIds,
-      ),
+      new ShoppingLists.UpdateShoppingListItems({
+        createShoppingListItemDtos,
+        updateShoppingListItemDtos,
+        removeShoppingListItemsIds,
+      }),
     );
   }
 

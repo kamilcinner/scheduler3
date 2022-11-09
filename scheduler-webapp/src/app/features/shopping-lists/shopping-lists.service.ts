@@ -8,7 +8,7 @@ import {
   UpdateShoppingListItemsResponseDto,
 } from './dto';
 import { Observable } from 'rxjs';
-import { ShoppingListItemModel, ShoppingListModel } from './models';
+import { ShoppingListModel } from './models';
 import { FeatureUrl } from '@shared/enums';
 
 @Injectable()
@@ -37,7 +37,7 @@ export class ShoppingListsService extends HttpService {
     shoppingListId: number,
     dto: UpdateShoppingListItemsDto,
   ): Observable<UpdateShoppingListItemsResponseDto> {
-    return this.patch<UpdateShoppingListItemsResponseDto>(`${shoppingListId}/items`, dto);
+    return this.patch<UpdateShoppingListItemsResponseDto>(`/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}/items`, dto);
   }
 
   remove(id: number): Observable<ShoppingListModel> {

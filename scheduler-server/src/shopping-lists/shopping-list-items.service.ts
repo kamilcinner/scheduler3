@@ -29,7 +29,7 @@ export class ShoppingListItemsService {
       throw new NotFoundException('shopping list item not found');
     }
 
-    // Object.assign(item, updateShoppingListItemDto);
+    Object.assign(item, updateShoppingListItemDto);
     return this.repo.save(item);
   }
 

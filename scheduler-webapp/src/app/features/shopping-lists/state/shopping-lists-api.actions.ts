@@ -35,7 +35,7 @@ export namespace ShoppingListsAPI {
 
   export class UpdateShoppingListItemsSuccess {
     static readonly type = '[ShoppingLists] UpdateShoppingListItemsSuccess';
-    constructor(public updatedShoppingListItemsResponseDto: UpdateShoppingListItemsResponseDto) {}
+    constructor(public dto: UpdateShoppingListItemsResponseDto) {}
   }
 
   export class UpdateShoppingListItemsFailed {

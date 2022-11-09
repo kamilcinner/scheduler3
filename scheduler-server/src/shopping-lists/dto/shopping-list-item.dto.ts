@@ -1,10 +1,7 @@
-import { Expose, Transform } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
 export class ShoppingListItemDto {
   @Expose() id: number;
   @Expose() name: string;
-
-  // @Expose()
-  // @Transform(({ obj }) => obj.shoppingList.id)
-  // shoppingListId: number;
+  @Expose() bought: boolean;
 }

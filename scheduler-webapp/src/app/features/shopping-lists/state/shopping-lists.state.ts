@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector, NgxsOnInit } from '@ngxs/store';
 import { ShoppingLists } from './shopping-lists.actions';
-import { ShoppingListModel } from '../models';
-import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { ShoppingListItemModel, ShoppingListModel } from '../models';
+import { append, compose, insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { ShoppingListsAPI } from './shopping-lists-api.actions';
 import { ShoppingListsService } from '../shopping-lists.service';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { EntityStateModel } from '@shared/models';
 import { EntityState } from '@shared/state/entity.state';
 
-export interface ShoppingListsStateModel extends EntityStateModel<ShoppingListModel> {
-  editingEntity?: ShoppingListModel;
-}
+export type ShoppingListsStateModel = EntityStateModel<ShoppingListModel>;
 
 const defaults = {
   entities: [],
@@ -105,6 +103,40 @@ export class ShoppingListsState extends EntityState implements NgxsOnInit {
     return this.service.updateShoppingListItems(selectedShoppingListId, dto).pipe(
       switchMap((responseDto) => dispatch(new ShoppingListsAPI.UpdateShoppingListItemsSuccess(responseDto))),
       catchError((err) => dispatch(new ShoppingListsAPI.UpdateShoppingListItemsFailed(err))),
+    );
+  }
+
+  @Action(ShoppingListsAPI.UpdateShoppingListItemsSuccess)
+  updateShoppingListItemsSuccess(
+    { setState, getState }: StateContext<ShoppingListsStateModel>,
+    { dto }: ShoppingListsAPI.UpdateShoppingListItemsSuccess,
+  ) {
+    if (!getState().selectedEntity) {
+      return;
+    }
+    setState(
+      patch<ShoppingListsStateModel>({
+        selectedEntity: patch({
+          items: compose(
+            append(dto.createdShoppingListItems),
+            ...dto.updatedShoppingListItems.map((updatedItem) =>
+              updateItem((item) => item?.id === updatedItem.id, updatedItem),
+            ),
+            ...dto.removedShoppingListItemsIds.map((removedItemId) =>
+              removeItem<ShoppingListItemModel>((item) => item?.id === removedItemId),
+            ),
+          ),
+        }),
+      }),
+    );
+    const selectedShoppingList = getState().selectedEntity;
+    if (!selectedShoppingList) {
+      return;
+    }
+    setState(
+      patch<ShoppingListsStateModel>({
+        entities: updateItem((shoppingList) => shoppingList?.id === selectedShoppingList.id, selectedShoppingList),
+      }),
     );
   }
 

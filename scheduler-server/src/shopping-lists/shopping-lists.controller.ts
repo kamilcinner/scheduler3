@@ -5,7 +5,6 @@ import {
   UpdateShoppingListDto,
   ShoppingListItemDto,
   CreateShoppingListItemDto,
-  UpdateShoppingListItemDto,
   UpdateShoppingListItemsDto,
 } from './dto';
 import { ShoppingListItemsService } from './shopping-list-items.service';
@@ -81,33 +80,36 @@ export class ShoppingListsController {
 
   @Patch(':shoppingListId/items')
   async updateShoppingListItems(
-    @Param('shoppingListId') id: string,
+    @Param('shoppingListId') id: number,
     @Body() updateShoppingListItemsDto: UpdateShoppingListItemsDto,
   ) {
-    const shoppingList = await this.shoppingListsService.findOne(+id);
+    const shoppingList = await this.shoppingListsService.findOne(id);
 
     if (!shoppingList) {
       throw new NotFoundException('shopping list not found');
     }
 
     const createdShoppingListItems = await Promise.all(
-      updateShoppingListItemsDto.createShoppingListItemDtos.map(async (dto) =>
-        this.shoppingListItemsService.create(dto, shoppingList),
+      updateShoppingListItemsDto.createShoppingListItemDtos.map(
+        async (dto) => await this.shoppingListItemsService.create(dto, shoppingList),
       ),
     );
     const updatedShoppingListItems = await Promise.all(
-      updateShoppingListItemsDto.updateShoppingListItemDtos.map(async (dto) =>
-        this.shoppingListItemsService.update(dto),
+      updateShoppingListItemsDto.updateShoppingListItemDtos.map(
+        async (dto) => await this.shoppingListItemsService.update(dto),
       ),
     );
-    const removedShoppingListItems = await Promise.all(
-      updateShoppingListItemsDto.removeShoppingListItemsIds.map(async (id) => this.shoppingListItemsService.remove(id)),
+    const removedShoppingListItemsIds = await Promise.all(
+      updateShoppingListItemsDto.removeShoppingListItemsIds.map(async (id) => {
+        await this.shoppingListItemsService.remove(id);
+        return id;
+      }),
     );
 
     return {
       createdShoppingListItems,
       updatedShoppingListItems,
-      removedShoppingListItems,
+      removedShoppingListItemsIds,
     };
   }
 
