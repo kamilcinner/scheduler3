@@ -23,7 +23,7 @@ export class ShoppingListDetailsComponent {
   constructor(private readonly store: Store, private readonly route: ActivatedRoute) {}
 
   onClickItem(item: ShoppingListItemModel): void {
-    this.store.dispatch(new ShoppingLists.ToggleItemBought(item));
+    this.store.dispatch(new ShoppingLists.ToggleShoppingListItemBought(item.id));
   }
 
   onClickEdit(): void {

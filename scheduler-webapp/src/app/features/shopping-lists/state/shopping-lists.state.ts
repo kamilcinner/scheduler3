@@ -8,6 +8,7 @@ import { ShoppingListsService } from '../shopping-lists.service';
 import { catchError, EMPTY, switchMap } from 'rxjs';
 import { EntityStateModel } from '@shared/models';
 import { EntityState } from '@shared/state/entity.state';
+import { sortEntities } from '@shared/state-operators';
 
 export type ShoppingListsStateModel = EntityStateModel<ShoppingListModel>;
 
@@ -129,15 +130,6 @@ export class ShoppingListsState extends EntityState implements NgxsOnInit {
         }),
       }),
     );
-    const selectedShoppingList = getState().selectedEntity;
-    if (!selectedShoppingList) {
-      return;
-    }
-    setState(
-      patch<ShoppingListsStateModel>({
-        entities: updateItem((shoppingList) => shoppingList?.id === selectedShoppingList.id, selectedShoppingList),
-      }),
-    );
   }
 
   @Action(ShoppingLists.Remove)
@@ -161,7 +153,63 @@ export class ShoppingListsState extends EntityState implements NgxsOnInit {
   }
 
   @Action(ShoppingLists.Select)
-  select({ patchState }: StateContext<ShoppingListsStateModel>, { selectedShoppingList }: ShoppingLists.Select) {
+  select(
+    { patchState, setState }: StateContext<ShoppingListsStateModel>,
+    { selectedShoppingList }: ShoppingLists.Select,
+  ) {
     patchState({ selectedEntity: selectedShoppingList });
+    // todo: instead sort at server
+    setState(
+      patch<ShoppingListsStateModel>({
+        selectedEntity: patch<ShoppingListModel>({
+          items: sortEntities<ShoppingListItemModel>(ShoppingListsService.sortShoppingListItems),
+        }),
+      }),
+    );
+  }
+
+  @Action(ShoppingLists.ToggleShoppingListItemBought)
+  toggleShoppingListItemBought(
+    { dispatch }: StateContext<ShoppingListsStateModel>,
+    { id }: ShoppingLists.ToggleShoppingListItemBought,
+  ) {
+    return this.service.toggleShoppingListItemBought(id).pipe(
+      switchMap((updatedItem) => dispatch(new ShoppingListsAPI.ToggleShoppingListItemBoughtSuccess(updatedItem))),
+      catchError((err) => dispatch(new ShoppingListsAPI.ToggleShoppingListItemBoughtFailed(err))),
+    );
+  }
+
+  @Action(ShoppingListsAPI.ToggleShoppingListItemBoughtSuccess)
+  toggleShoppingListItemBoughtSuccess(
+    { getState, setState }: StateContext<ShoppingListsStateModel>,
+    { updatedItem }: ShoppingListsAPI.ToggleShoppingListItemBoughtSuccess,
+  ) {
+    const selectedShoppingListId = getState().selectedEntity?.id;
+    if (!selectedShoppingListId) {
+      return;
+    }
+    setState(
+      patch<ShoppingListsStateModel>({
+        selectedEntity: patch<ShoppingListModel>({
+          items: compose(
+            updateItem((item) => item?.id === updatedItem.id, updatedItem),
+            sortEntities(ShoppingListsService.sortShoppingListItems),
+          ),
+        }),
+      }),
+    );
+  }
+
+  private updateSelectedShoppingListOrigin() {
+    // this.
+    // const selectedShoppingList = getState().selectedEntity;
+    // if (!selectedShoppingList) {
+    //   return;
+    // }
+    // setState(
+    //   patch<ShoppingListsStateModel>({
+    //     entities: updateItem((shoppingList) => shoppingList?.id === selectedShoppingList.id, selectedShoppingList),
+    //   }),
+    // );
   }
 }

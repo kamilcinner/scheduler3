@@ -8,11 +8,33 @@ import {
   UpdateShoppingListItemsResponseDto,
 } from './dto';
 import { Observable } from 'rxjs';
-import { ShoppingListModel } from './models';
+import { ShoppingListItemModel, ShoppingListModel } from './models';
 import { FeatureUrl } from '@shared/enums';
 
 @Injectable()
 export class ShoppingListsService extends HttpService {
+  static sortShoppingListItems(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
+    let result = ShoppingListsService.sortShoppingListItemsByBought(a, b);
+    if (result === 0) {
+      result = ShoppingListsService.sortShoppingListItemsByName(a, b);
+    }
+    return result;
+  }
+
+  static sortShoppingListItemsByBought(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
+    if (!a.bought && b.bought) {
+      return -1;
+    }
+    if (a.bought && !b.bought) {
+      return 1;
+    }
+    return 0;
+  }
+
+  static sortShoppingListItemsByName(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
+    return a.name.localeCompare(b.name);
+  }
+
   constructor(protected override readonly http: HttpClient) {
     super(http);
   }
@@ -42,5 +64,9 @@ export class ShoppingListsService extends HttpService {
 
   remove(id: number): Observable<ShoppingListModel> {
     return this.delete<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
+  }
+
+  toggleShoppingListItemBought(id: number): Observable<ShoppingListItemModel> {
+    return this.patch<ShoppingListItemModel>(`/${FeatureUrl.SHOPPING_LISTS}/items/${id}/bought`, {});
   }
 }

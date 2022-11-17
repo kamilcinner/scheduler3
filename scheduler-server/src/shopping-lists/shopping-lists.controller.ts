@@ -122,4 +122,9 @@ export class ShoppingListsController {
   async removeShoppingListItems(@Param('ids', new ParseArrayPipe({ items: Number })) ids: number[]) {
     return await Promise.all(ids.map(async (id) => await this.shoppingListItemsService.remove(id)));
   }
+
+  @Patch('items/:id/bought')
+  toggleShoppingListItemBought(@Param('id') id: number) {
+    return this.shoppingListItemsService.toggleBought(id);
+  }
 }

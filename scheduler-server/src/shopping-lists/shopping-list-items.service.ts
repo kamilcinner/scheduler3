@@ -42,4 +42,16 @@ export class ShoppingListItemsService {
 
     return this.repo.remove(item);
   }
+
+  async toggleBought(id: number) {
+    const item = await this.findOne(id);
+
+    if (!item) {
+      throw new NotFoundException('shopping list item not found');
+    }
+
+    item.bought = !item.bought;
+
+    return this.repo.save(item);
+  }
 }

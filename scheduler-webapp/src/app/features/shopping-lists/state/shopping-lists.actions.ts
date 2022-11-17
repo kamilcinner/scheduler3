@@ -32,9 +32,9 @@ export namespace ShoppingLists {
     constructor(public selectedShoppingList: ShoppingListModel) {}
   }
 
-  export class ToggleItemBought {
-    static readonly type = '[ShoppingLists] ToggleItemBought';
-    constructor(public item: ShoppingListItemModel) {}
+  export class ToggleShoppingListItemBought {
+    static readonly type = '[ShoppingLists] ToggleShoppingListItemBought';
+    constructor(public id: number) {}
   }
 
   export class UpdateShoppingListItems {
