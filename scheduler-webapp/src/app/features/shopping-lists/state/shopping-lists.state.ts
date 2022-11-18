@@ -130,6 +130,7 @@ export class ShoppingListsState extends EntityState implements NgxsOnInit {
         }),
       }),
     );
+    this.updateSelectedShoppingListOrigin({ getState, setState });
   }
 
   @Action(ShoppingLists.Remove)
@@ -198,18 +199,21 @@ export class ShoppingListsState extends EntityState implements NgxsOnInit {
         }),
       }),
     );
+    this.updateSelectedShoppingListOrigin({ getState, setState });
   }
 
-  private updateSelectedShoppingListOrigin() {
-    // this.
-    // const selectedShoppingList = getState().selectedEntity;
-    // if (!selectedShoppingList) {
-    //   return;
-    // }
-    // setState(
-    //   patch<ShoppingListsStateModel>({
-    //     entities: updateItem((shoppingList) => shoppingList?.id === selectedShoppingList.id, selectedShoppingList),
-    //   }),
-    // );
+  private updateSelectedShoppingListOrigin({
+    getState,
+    setState,
+  }: Pick<StateContext<ShoppingListsStateModel>, 'setState' | 'getState'>) {
+    const selectedShoppingList = getState().selectedEntity;
+    if (!selectedShoppingList) {
+      return;
+    }
+    setState(
+      patch<ShoppingListsStateModel>({
+        entities: updateItem((shoppingList) => shoppingList?.id === selectedShoppingList.id, selectedShoppingList),
+      }),
+    );
   }
 }

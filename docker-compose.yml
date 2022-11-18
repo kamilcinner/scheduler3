@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  scheduler-server:
+    container_name: scheduler-server
+    image: kamilcinner/scheduler-server:0.0.1
+    restart: on-failure
+    ports:
+      - '3000:3000'
+  scheduler-webapp:
+    container_name: scheduler-webapp
+    image: kamilcinner/scheduler-webapp:0.0.1
+    ports:
+      - '4200:80'
+    environment:
+      - NODE_ENV=development
