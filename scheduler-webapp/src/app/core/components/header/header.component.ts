@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,13 @@ export class HeaderComponent {
 
   @Output() isSidenavOpenedChange = new EventEmitter<boolean>();
 
+  constructor(private readonly location: Location) {}
+
   toggleSidenav(): void {
     this.isSidenavOpenedChange.emit(!this.isSidenavOpened);
+  }
+
+  onClickBack(): void {
+    this.location.back();
   }
 }

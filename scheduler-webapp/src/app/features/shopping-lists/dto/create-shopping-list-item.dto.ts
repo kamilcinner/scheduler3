@@ -1,3 +1,3 @@
-export type CreateShoppingListItemDto = {
-  name: string;
-};
+import { ShoppingListItemModel } from '../models';
+
+export type CreateShoppingListItemDto = Pick<ShoppingListItemModel, 'name'>;

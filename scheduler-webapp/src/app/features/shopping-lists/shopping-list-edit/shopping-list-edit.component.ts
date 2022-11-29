@@ -6,9 +6,12 @@ import { ShoppingListItemModel, ShoppingListModel } from '../models';
 import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { EntityFormControlsModel } from '@shared/models';
 import { ShoppingLists } from '../state/shopping-lists.actions';
+import { Navigate } from '@ngxs/router-plugin';
+import { ActivatedRoute } from '@angular/router';
 
-type ItemsFormArray = FormArray<FormGroup<EntityFormControlsModel<ShoppingListItemModel>>>;
-type ItemsForm = FormGroup<{ items: ItemsFormArray }>;
+type ItemFormGroup = FormGroup<EntityFormControlsModel<ShoppingListItemModel>>;
+type ItemsFormArray = FormArray<ItemFormGroup>;
+type ItemsFormGroup = FormGroup<{ items: ItemsFormArray }>;
 
 @Component({
   selector: 'app-shopping-list-edit',
@@ -17,14 +20,20 @@ type ItemsForm = FormGroup<{ items: ItemsFormArray }>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingListEditComponent implements OnInit {
+  private static readonly INITIAL_EMPTY_FIELDS_COUNT = 3;
+
   @Select(ShoppingListsState.selectedShoppingList)
   private readonly selectedShoppingList$!: Observable<ShoppingListModel>;
 
-  form?: ItemsForm;
+  form?: ItemsFormGroup;
 
   private readonly destroyed$ = new Subject<void>();
 
-  constructor(private readonly store: Store, private readonly fb: NonNullableFormBuilder) {}
+  constructor(
+    private readonly store: Store,
+    private readonly fb: NonNullableFormBuilder,
+    private readonly route: ActivatedRoute,
+  ) {}
 
   private get formItemsArray(): ItemsFormArray | undefined {
     return this.form?.controls.items;
@@ -38,6 +47,7 @@ export class ShoppingListEditComponent implements OnInit {
     this.selectedShoppingList$.pipe(takeUntil(this.destroyed$)).subscribe((selectedShoppingList) => {
       this.form = this.createForm(selectedShoppingList);
     });
+    this.addInitialFields();
   }
 
   onClickRemove(itemFormGroupIndex: number): void {
@@ -55,31 +65,53 @@ export class ShoppingListEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const createShoppingListItemDtos = this.formItems.filter((item) => item.id === -1).map(({ name }) => ({ name }));
+    const createShoppingListItemDtos = this.formItems
+      .filter((item) => item.id === -1 && item.name)
+      .map(({ name }) => ({ name }));
 
     const updateShoppingListItemDtos =
       this.formItemsArray?.controls
-        .filter((itemGroup) => itemGroup.controls.id.value > 0 && itemGroup.dirty)
-        .map((itemGroup) => itemGroup.getRawValue())
-        .map(({ name }) => ({ name })) ?? [];
+        .filter((itemFormGroup) => {
+          const isNotCreated = itemFormGroup.controls.id.value > 0;
+          const isModified = itemFormGroup.dirty;
+          const isNotEmpty = !!itemFormGroup.controls.name.value;
+
+          return isNotCreated && isModified && isNotEmpty;
+        })
+        .map((itemFormGroup) => itemFormGroup.getRawValue())
+        .map(({ name }) => ({ name, bought: false })) ?? [];
 
     const removeShoppingListItemsIds = this.store
       .selectSnapshot(ShoppingListsState.selectedShoppingList)
-      .items.filter((item) => !this.formItems.some((formItem) => formItem.id === item.id))
+      .items.filter((savedItem) => {
+        const formItem = this.formItems.find((formItem) => formItem.id === savedItem.id);
+
+        const notExistInForm = !formItem;
+        const isEmpty = formItem && !formItem.name;
+        const isNotCreated = formItem && formItem.id > 0;
+
+        return notExistInForm || (isEmpty && isNotCreated);
+      })
       .map((item) => item.id);
 
     // todo: if all arrays are empty, that means nothing changed - don't send request and show toast
 
-    this.store.dispatch(
-      new ShoppingLists.UpdateShoppingListItems({
-        createShoppingListItemDtos,
-        updateShoppingListItemDtos,
-        removeShoppingListItemsIds,
-      }),
-    );
+    this.store
+      .dispatch(
+        new ShoppingLists.UpdateShoppingListItems({
+          createShoppingListItemDtos,
+          updateShoppingListItemDtos,
+          removeShoppingListItemsIds,
+        }),
+      )
+      .subscribe({
+        complete: () => {
+          this.store.dispatch(new Navigate(['details'], {}, { relativeTo: this.route.parent }));
+        },
+      });
   }
 
-  private createForm(shoppingList: ShoppingListModel): ItemsForm {
+  private createForm(shoppingList: ShoppingListModel): ItemsFormGroup {
     return this.fb.group({
       items: this.fb.array(
         shoppingList.items.map((item) =>
@@ -91,5 +123,11 @@ export class ShoppingListEditComponent implements OnInit {
         ),
       ),
     });
+  }
+
+  private addInitialFields(): void {
+    for (let i = 0; i < ShoppingListEditComponent.INITIAL_EMPTY_FIELDS_COUNT; i++) {
+      this.onClickAdd();
+    }
   }
 }

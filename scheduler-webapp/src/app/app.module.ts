@@ -7,7 +7,7 @@ import { CoreModule } from '@core/core.module';
 import { FeaturesModule } from './features/features.module';
 import { SharedModule } from '@shared/shared.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { environment } from '@env';
 
 @NgModule({
   declarations: [AppComponent],
