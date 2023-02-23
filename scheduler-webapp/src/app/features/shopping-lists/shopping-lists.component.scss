@@ -1,0 +1,12 @@
+.shopping-list {
+  background-color: var(--app-color-primary);
+
+  .items {
+    color: var(--app-color-primary-lighter);
+
+    > .item:not(:last-child)::after {
+      content: ',';
+      margin-right: 0.5em;
+    }
+  }
+}

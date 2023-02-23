@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ShoppingListItem } from '../../shopping-list-items/entities/shopping-list-item.entity';
+import { ShoppingListItem } from './shopping-list-item.entity';
 
 @Entity()
 export class ShoppingList {
@@ -8,8 +8,8 @@ export class ShoppingList {
   @Column() name: string;
   @Column() lastEditDateTime: Date;
 
-  @OneToMany(() => ShoppingListItem, (shoppingListItem) => shoppingListItem.shoppingList)
-  shoppingListItems: ShoppingListItem[];
+  @OneToMany(() => ShoppingListItem, (item) => item.shoppingList)
+  items: ShoppingListItem[];
 
   constructor() {
     this.lastEditDateTime = new Date();

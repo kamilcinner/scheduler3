@@ -5,9 +5,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './tasks/entities/task.entity';
 import { ShoppingListsModule } from './shopping-lists/shopping-lists.module';
-import { ShoppingListItemsModule } from './shopping-list-items/shopping-list-items.module';
-import { ShoppingList } from './shopping-lists/entities/shopping-list.entity';
-import { ShoppingListItem } from './shopping-list-items/entities/shopping-list-item.entity';
+import { ShoppingList, ShoppingListItem } from './shopping-lists/entities';
 import { APP_PIPE } from '@nestjs/core';
 
 @Module({
@@ -20,7 +18,6 @@ import { APP_PIPE } from '@nestjs/core';
       entities: [Task, ShoppingList, ShoppingListItem],
     }),
     ShoppingListsModule,
-    ShoppingListItemsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -29,6 +26,7 @@ import { APP_PIPE } from '@nestjs/core';
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         whitelist: true,
+        transform: true,
       }),
     },
   ],

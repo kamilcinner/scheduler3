@@ -1,0 +1,11 @@
+{
+  "sidenav": {
+    "shoppingLists": "Shopping Lists",
+    "tasks": "Tasks"
+  },
+  "button": {
+    "edit": "Edit",
+    "add": "Add",
+    "save": "Save"
+  }
+}
