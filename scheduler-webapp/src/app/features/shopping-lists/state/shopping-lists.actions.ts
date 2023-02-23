@@ -1,44 +1,29 @@
-import {
-  CreateShoppingListDto,
-  CreateShoppingListItemDto,
-  UpdateShoppingListDto,
-  UpdateShoppingListItemDto,
-  UpdateShoppingListItemsDto,
-} from '../dto';
-import { ShoppingListModel, ShoppingListItemModel } from '../models';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { CreateShoppingListDto, UpdateShoppingListDto } from '../dto';
+import { ShoppingListModel } from '../models';
+import { HttpErrorResponse } from '@angular/common/http';
 
-export namespace ShoppingLists {
-  export class Create {
-    static readonly type = '[ShoppingLists] Create';
-    constructor(public dto: CreateShoppingListDto) {}
-  }
+export const ShoppingListsActions = createActionGroup({
+  source: 'Shopping lists',
+  events: {
+    'Create': props<{ dto: CreateShoppingListDto }>(),
+    'Get all': emptyProps(),
+    'Update': props<{ id: number; dto: UpdateShoppingListDto }>(),
+    'Remove': props<{ id: number }>(),
+    'Select': props<{ id: number }>(),
+  },
+});
 
-  export class GetAll {
-    static readonly type = '[ShoppingLists] GetAll';
-  }
-
-  export class Update {
-    static readonly type = '[ShoppingLists] Update';
-    constructor(public id: number, public dto: UpdateShoppingListDto) {}
-  }
-
-  export class Remove {
-    static readonly type = '[ShoppingLists] Remove';
-    constructor(public id: number) {}
-  }
-
-  export class Select {
-    static readonly type = '[ShoppingLists] Select';
-    constructor(public selectedShoppingList: ShoppingListModel) {}
-  }
-
-  export class ToggleShoppingListItemBought {
-    static readonly type = '[ShoppingLists] ToggleShoppingListItemBought';
-    constructor(public id: number) {}
-  }
-
-  export class UpdateShoppingListItems {
-    static readonly type = '[ShoppingLists] UpdateShoppingListItems';
-    constructor(public dto: UpdateShoppingListItemsDto) {}
-  }
-}
+export const ShoppingListsApiActions = createActionGroup({
+  source: 'Shopping lists API',
+  events: {
+    'Create success': props<{ createdShoppingList: ShoppingListModel }>(),
+    'Create failure': props<{ error: HttpErrorResponse }>(),
+    'Get all success': props<{ shoppingLists: ShoppingListModel[] }>(),
+    'Get all failure': props<{ error: HttpErrorResponse }>(),
+    'Update success': props<{ updatedShoppingList: ShoppingListModel }>(),
+    'Update failure': props<{ error: HttpErrorResponse }>(),
+    'Remove success': props<{ removedShoppingList: ShoppingListModel }>(),
+    'Remove failure': props<{ error: HttpErrorResponse }>(),
+  },
+});

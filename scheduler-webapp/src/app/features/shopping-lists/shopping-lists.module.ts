@@ -4,13 +4,32 @@ import { ShoppingListsComponent } from './shopping-lists.component';
 import { ShoppingListDetailsComponent } from './shopping-list-details/shopping-list-details.component';
 import { ShoppingListsService } from './shopping-lists.service';
 import { SharedModule } from '@shared/shared.module';
-import { NgxsModule } from '@ngxs/store';
-import { ShoppingListsState } from './state/shopping-lists.state';
 import { ShoppingListEditComponent } from './shopping-list-edit/shopping-list-edit.component';
+import { EffectsModule } from '@ngrx/effects';
+import {
+  ShoppingListsEffects,
+  shoppingListsFeature,
+  selectedShoppingListItemsFeature,
+  SelectedShoppingListItemsEffects,
+} from './state';
+import { StoreModule } from '@ngrx/store';
+import { ShoppingListCreateComponent } from './shopping-list-create/shopping-list-create.component';
+import { ShoppingListItemsWebSocketService } from './shopping-list-items-web-socket.service';
 
 @NgModule({
-  declarations: [ShoppingListsComponent, ShoppingListDetailsComponent, ShoppingListEditComponent],
-  imports: [SharedModule, ShoppingListsRoutingModule, NgxsModule.forFeature([ShoppingListsState])],
-  providers: [ShoppingListsService],
+  declarations: [
+    ShoppingListsComponent,
+    ShoppingListDetailsComponent,
+    ShoppingListEditComponent,
+    ShoppingListCreateComponent,
+  ],
+  imports: [
+    SharedModule,
+    ShoppingListsRoutingModule,
+    StoreModule.forFeature(shoppingListsFeature),
+    StoreModule.forFeature(selectedShoppingListItemsFeature),
+    EffectsModule.forFeature([ShoppingListsEffects, SelectedShoppingListItemsEffects]),
+  ],
+  providers: [ShoppingListsService, ShoppingListItemsWebSocketService],
 })
 export class ShoppingListsModule {}

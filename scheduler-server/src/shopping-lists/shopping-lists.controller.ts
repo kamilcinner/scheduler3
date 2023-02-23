@@ -6,6 +6,7 @@ import {
   ShoppingListItemDto,
   CreateShoppingListItemDto,
   UpdateShoppingListItemsDto,
+  ShoppingListDto,
 } from './dto';
 import { ShoppingListItemsService } from './shopping-list-items.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -18,6 +19,7 @@ export class ShoppingListsController {
   ) {}
 
   @Post()
+  @Serialize(ShoppingListDto)
   createShoppingList(@Body() createShoppingListDto: CreateShoppingListDto) {
     return this.shoppingListsService.create(createShoppingListDto);
   }
@@ -41,15 +43,8 @@ export class ShoppingListsController {
   }
 
   @Get()
-  async findAllShoppingLists() {
-    return await Promise.all(
-      (
-        await this.shoppingListsService.findAll()
-      ).map(async (shoppingList) => {
-        shoppingList.items = await this.shoppingListItemsService.findAll(shoppingList);
-        return shoppingList;
-      }),
-    );
+  findAllShoppingLists() {
+    return this.shoppingListsService.findAll();
   }
 
   @Get(':shoppingListId')

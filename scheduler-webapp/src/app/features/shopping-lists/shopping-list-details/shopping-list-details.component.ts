@@ -1,32 +1,55 @@
-import { Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { ShoppingListsState } from '../state/shopping-lists.state';
-import { Observable, combineLatest, map } from 'rxjs';
-import { ShoppingListModel, ShoppingListItemModel } from '../models';
-import { Navigate } from '@ngxs/router-plugin';
-import { ActivatedRoute } from '@angular/router';
-import { ShoppingLists } from '../state/shopping-lists.actions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, combineLatest, map, Subject, takeUntil } from 'rxjs';
+import { ShoppingListItemModel } from '../models';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SelectedShoppingListItemsActions, selectSelectedShoppingListItems } from '../state';
+import { Store } from '@ngrx/store';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-shopping-list-details',
   templateUrl: './shopping-list-details.component.html',
   styleUrls: ['./shopping-list-details.component.scss'],
 })
-export class ShoppingListDetailsComponent {
-  @Select(ShoppingListsState.selectedShoppingList)
-  private readonly selectedShoppingList$!: Observable<ShoppingListModel>;
+export class ShoppingListDetailsComponent implements OnInit, OnDestroy {
+  readonly vm$: Observable<{ selectedShoppingListItems: ShoppingListItemModel[] }>;
 
-  readonly vm$ = combineLatest([this.selectedShoppingList$]).pipe(
-    map(([selectedShoppingList]) => ({ selectedShoppingList })),
-  );
+  private readonly selectedShoppingListItems$: Observable<ShoppingListItemModel[]>;
+  private readonly destroyed$ = new Subject<void>();
 
-  constructor(private readonly store: Store, private readonly route: ActivatedRoute) {}
-
-  onClickItem(item: ShoppingListItemModel): void {
-    this.store.dispatch(new ShoppingLists.ToggleShoppingListItemBought(item.id));
+  constructor(
+    private readonly store: Store,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly socket: Socket,
+  ) {
+    this.selectedShoppingListItems$ = this.store.select(selectSelectedShoppingListItems);
+    this.vm$ = combineLatest([this.selectedShoppingListItems$]).pipe(
+      map(([selectedShoppingListItems]) => ({ selectedShoppingListItems })),
+    );
   }
 
-  onClickEdit(): void {
-    this.store.dispatch(new Navigate(['edit'], {}, { relativeTo: this.route.parent }));
+  ngOnInit(): void {
+    this.socket
+      .fromEvent('message')
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((messages) => console.log(messages));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  onClickItem(item: ShoppingListItemModel): void {
+    this.store.dispatch(SelectedShoppingListItemsActions.toggleItemBought({ id: item.id }));
+  }
+
+  async onClickEdit(): Promise<void> {
+    await this.router.navigate(['edit'], { relativeTo: this.route });
+  }
+
+  onClickSendMessage(): void {
+    this.socket.emit('message', { ula: 'ula' });
   }
 }
