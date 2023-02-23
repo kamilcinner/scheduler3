@@ -1,30 +1,37 @@
-import { Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnInit } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
-import { ShoppingListModel } from './models/shopping-list.model';
-import { ShoppingListsState } from './state/shopping-lists.state';
-import { ShoppingLists } from './state/shopping-lists.actions';
-import { DateFormat } from '@shared/enums';
-import { Navigate } from '@ngxs/router-plugin';
-import { ActivatedRoute } from '@angular/router';
+import { ShoppingListModel } from './models';
+import { DateFormat, Navigation } from '@shared/enums';
+import { Store } from '@ngrx/store';
+import { SelectedShoppingListItemsActions, selectShoppingLists, ShoppingListsActions } from './state';
+import { Router } from '@angular/router';
+import { NavigationUtils } from '@shared/utils/navigation.utils';
 
 @Component({
   selector: 'app-shopping-lists',
   templateUrl: './shopping-lists.component.html',
   styleUrls: ['./shopping-lists.component.scss'],
 })
-export class ShoppingListsComponent {
-  @Select(ShoppingListsState.shoppingLists) private readonly shoppingLists$!: Observable<ShoppingListModel[]>;
-
+export class ShoppingListsComponent implements OnInit {
   readonly DateFormat = DateFormat;
-  readonly vm$ = combineLatest([this.shoppingLists$]).pipe(map(([shoppingLists]) => ({ shoppingLists })));
+  readonly vm$: Observable<{ shoppingLists: ShoppingListModel[] }>;
 
-  constructor(private readonly store: Store, private readonly route: ActivatedRoute) {}
+  private readonly shoppingLists$: Observable<ShoppingListModel[]>;
 
-  onClickShoppingList(shoppingList: ShoppingListModel): void {
-    this.store.dispatch([
-      new ShoppingLists.Select(shoppingList),
-      new Navigate(['details'], {}, { relativeTo: this.route }),
-    ]);
+  constructor(private readonly store: Store, private readonly router: Router) {
+    this.shoppingLists$ = this.store.select(selectShoppingLists);
+    this.vm$ = combineLatest([this.shoppingLists$]).pipe(map(([shoppingLists]) => ({ shoppingLists })));
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(SelectedShoppingListItemsActions.reset());
+  }
+
+  async onClickShoppingList(shoppingList: ShoppingListModel): Promise<void> {
+    this.store.dispatch(ShoppingListsActions.select({ id: shoppingList.id }));
+  }
+
+  async onClickCreate(): Promise<void> {
+    await this.router.navigate(NavigationUtils.getNavigationCommands(Navigation.SHOPPING_LIST_CREATE));
   }
 }

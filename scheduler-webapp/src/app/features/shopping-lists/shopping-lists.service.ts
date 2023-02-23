@@ -47,6 +47,10 @@ export class ShoppingListsService extends HttpService {
     return this.get<ShoppingListModel[]>(`/${FeatureUrl.SHOPPING_LISTS}`);
   }
 
+  getAllShoppingListItems(shoppingListId: number): Observable<ShoppingListItemModel[]> {
+    return this.get<ShoppingListItemModel[]>(`/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}`);
+  }
+
   getOne(id: number): Observable<ShoppingListModel> {
     return this.get<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
   }

@@ -6,6 +6,14 @@
   "button": {
     "edit": "Edit",
     "add": "Add",
-    "save": "Save"
+    "save": "Save",
+    "create": "Create"
+  },
+  "feature": {
+    "shoppingLists": {
+      "form": {
+        "name": "Name"
+      }
+    }
   }
 }

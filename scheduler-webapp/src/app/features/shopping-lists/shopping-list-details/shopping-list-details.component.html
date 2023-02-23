@@ -1,7 +1,7 @@
 <ng-container *ngIf="vm$ | async as vm">
   <mat-list class="list m-3">
     <mat-list-item
-      *ngFor="let item of vm.selectedShoppingList.items"
+      *ngFor="let item of vm.selectedShoppingListItems"
       class="item mb-2"
       [class.bought]="item.bought"
       (click)="onClickItem(item)"
@@ -15,5 +15,8 @@
 
   <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickEdit()">
     <span translate="button.edit"></span>
+  </button>
+  <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickSendMessage()">
+    <span>send mes</span>
   </button>
 </ng-container>
