@@ -14,7 +14,6 @@ import {
 } from './state';
 import { StoreModule } from '@ngrx/store';
 import { ShoppingListCreateComponent } from './shopping-list-create/shopping-list-create.component';
-import { ShoppingListItemsWebSocketService } from './shopping-list-items-web-socket.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +29,6 @@ import { ShoppingListItemsWebSocketService } from './shopping-list-items-web-soc
     StoreModule.forFeature(selectedShoppingListItemsFeature),
     EffectsModule.forFeature([ShoppingListsEffects, SelectedShoppingListItemsEffects]),
   ],
-  providers: [ShoppingListsService, ShoppingListItemsWebSocketService],
+  providers: [ShoppingListsService],
 })
 export class ShoppingListsModule {}
