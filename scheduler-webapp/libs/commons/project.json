@@ -1,0 +1,47 @@
+{
+  "name": "commons",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/commons/src",
+  "prefix": "rennic",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/commons/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/commons/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/commons/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/commons/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/commons/**/*.ts", "libs/commons/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

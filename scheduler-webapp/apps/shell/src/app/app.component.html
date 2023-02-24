@@ -1,5 +1,26 @@
-<ul class="remote-menu">
-  <li><a routerLink="/">Home</a></li>
-  <li><a routerLink="shopping-lists">ShoppingLists</a></li>
-</ul>
-<router-outlet></router-outlet>
+<mat-sidenav-container *ngIf="isLangInit" class="app-container">
+  <mat-sidenav
+    [(opened)]="isSidenavOpened"
+    [mode]="isMobile ? 'over' : 'side'"
+    role="navigation"
+    class="sidenav"
+  >
+    <nav>
+      <rennic-commons-sidenav
+        (itemClick)="onSidenavItemClick($event)"
+      ></rennic-commons-sidenav>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content role="main" class="content-container">
+    <header>
+      <rennic-commons-header
+        [isMobile]="isMobile"
+        [(isSidenavOpened)]="isSidenavOpened"
+      ></rennic-commons-header>
+    </header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

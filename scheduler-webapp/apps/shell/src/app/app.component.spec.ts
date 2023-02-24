@@ -22,12 +22,6 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'shell'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('shell');
-  });
-
   it('should render title', fakeAsync(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const router = TestBed.inject(Router);

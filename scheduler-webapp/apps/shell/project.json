@@ -15,9 +15,21 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/shell/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/shell/src/favicon.ico", "apps/shell/src/assets"],
-        "styles": ["apps/shell/src/styles.scss"],
+        "assets": [
+          "apps/shell/src/favicon.ico",
+          "apps/shell/src/assets",
+          "apps/shell/src/manifest.webmanifest"
+        ],
+        "styles": [
+          "node_modules/bootstrap/scss/bootstrap.scss",
+          "apps/shell/src/assets/styles/utils.scss",
+          "apps/shell/src/assets/styles/scroll.scss",
+          "apps/shell/src/assets/styles/theme/theme.scss",
+          "apps/shell/src/styles.scss"
+        ],
         "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "ngsw-config.json",
         "customWebpackConfig": {
           "path": "apps/shell/webpack.config.js"
         }
@@ -47,7 +59,8 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "serviceWorker": false
         }
       },
       "defaultConfiguration": "production"
@@ -96,5 +109,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["scope:shell"]
 }
