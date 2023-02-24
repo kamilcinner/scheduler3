@@ -1,0 +1,29 @@
+<button
+  mat-raised-button
+  color="primary"
+  class="d-block mx-auto mt-3"
+  (click)="onClickCreate()"
+>
+  <span translate="button.create"></span>
+</button>
+
+<ng-container *ngIf="vm$ | async as vm">
+  <mat-list class="m-3">
+    <mat-list-item
+      *ngFor="let shoppingList of vm.shoppingLists"
+      matRipple
+      class="shopping-list mb-3 rounded-2"
+      (click)="onClickShoppingList(shoppingList)"
+    >
+      <h3 matLine>{{ shoppingList.name }}</h3>
+      <p matLine class="d-inline-flex justify-content-between">
+        <span>{{
+          shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_DATE
+        }}</span>
+        <span>{{
+          shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_TIME
+        }}</span>
+      </p>
+    </mat-list-item>
+  </mat-list>
+</ng-container>
