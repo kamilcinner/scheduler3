@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { Navigation, NavigationUtils, DateFormat } from '@rennic/shared';
+import { Navigation, DateFormat } from '@rennic/shared/enums';
+import { NavigationUtils } from '@rennic/shared/utils';
 import { ShoppingListModel } from './models';
-import {
-  SelectedShoppingListItemsActions,
-  selectShoppingLists,
-  ShoppingListsActions,
-} from './state';
+import { SelectedShoppingListItemsActions, selectShoppingLists, ShoppingListsActions } from './state';
 
 @Component({
   selector: 'rennic-shopping-lists-entry',
@@ -23,9 +20,7 @@ export class RemoteEntryComponent implements OnInit {
 
   constructor(private readonly store: Store, private readonly router: Router) {
     this.shoppingLists$ = this.store.select(selectShoppingLists);
-    this.vm$ = combineLatest([this.shoppingLists$]).pipe(
-      map(([shoppingLists]) => ({ shoppingLists }))
-    );
+    this.vm$ = combineLatest([this.shoppingLists$]).pipe(map(([shoppingLists]) => ({ shoppingLists })));
   }
 
   ngOnInit(): void {
@@ -37,8 +32,6 @@ export class RemoteEntryComponent implements OnInit {
   }
 
   async onClickCreate(): Promise<void> {
-    await this.router.navigate(
-      NavigationUtils.getNavigationCommands(Navigation.SHOPPING_LIST_CREATE)
-    );
+    await this.router.navigate(NavigationUtils.getNavigationCommands(Navigation.SHOPPING_LIST_CREATE));
   }
 }

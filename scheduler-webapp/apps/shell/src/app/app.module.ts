@@ -7,13 +7,13 @@ import { SocketIoModule } from 'ngx-socket-io';
 import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { CoreModule } from '@rennic/core';
-import { SharedModule } from '@rennic/shared';
+import { SharedMaterialModule } from '@rennic/shared/material';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, SidenavComponent],
   imports: [
     CoreModule,
-    SharedModule,
+    SharedMaterialModule,
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
 
     SocketIoModule.forRoot({ url: 'http://localhost:3000', options: {} }),

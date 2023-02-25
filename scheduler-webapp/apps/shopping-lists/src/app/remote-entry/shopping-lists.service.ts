@@ -8,14 +8,12 @@ import {
 } from './dto';
 import { Observable } from 'rxjs';
 import { ShoppingListItemModel, ShoppingListModel } from './models';
-import { FeatureUrl, HttpService } from '@rennic/shared';
+import { FeatureUrl } from '@rennic/shared/enums';
+import { HttpService } from '@rennic/shared/services';
 
 @Injectable()
 export class ShoppingListsService extends HttpService {
-  static sortShoppingListItems(
-    a: ShoppingListItemModel,
-    b: ShoppingListItemModel
-  ): number {
+  static sortShoppingListItems(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
     let result = ShoppingListsService.sortShoppingListItemsByBought(a, b);
     if (result === 0) {
       result = ShoppingListsService.sortShoppingListItemsByName(a, b);
@@ -23,10 +21,7 @@ export class ShoppingListsService extends HttpService {
     return result;
   }
 
-  static sortShoppingListItemsByBought(
-    a: ShoppingListItemModel,
-    b: ShoppingListItemModel
-  ): number {
+  static sortShoppingListItemsByBought(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
     if (!a.bought && b.bought) {
       return -1;
     }
@@ -36,10 +31,7 @@ export class ShoppingListsService extends HttpService {
     return 0;
   }
 
-  static sortShoppingListItemsByName(
-    a: ShoppingListItemModel,
-    b: ShoppingListItemModel
-  ): number {
+  static sortShoppingListItemsByName(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
     return a.name.localeCompare(b.name);
   }
 
@@ -55,48 +47,30 @@ export class ShoppingListsService extends HttpService {
     return this.get<ShoppingListModel[]>(`/${FeatureUrl.SHOPPING_LISTS}`);
   }
 
-  getAllShoppingListItems(
-    shoppingListId: number
-  ): Observable<ShoppingListItemModel[]> {
-    return this.get<ShoppingListItemModel[]>(
-      `/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}`
-    );
+  getAllShoppingListItems(shoppingListId: number): Observable<ShoppingListItemModel[]> {
+    return this.get<ShoppingListItemModel[]>(`/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}`);
   }
 
   getOne(id: number): Observable<ShoppingListModel> {
     return this.get<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
   }
 
-  update(
-    id: number,
-    dto: UpdateShoppingListDto
-  ): Observable<ShoppingListModel> {
-    return this.patch<ShoppingListModel>(
-      `/${FeatureUrl.SHOPPING_LISTS}/${id}`,
-      dto
-    );
+  update(id: number, dto: UpdateShoppingListDto): Observable<ShoppingListModel> {
+    return this.patch<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`, dto);
   }
 
   updateShoppingListItems(
     shoppingListId: number,
-    dto: UpdateShoppingListItemsDto
+    dto: UpdateShoppingListItemsDto,
   ): Observable<UpdateShoppingListItemsResponseDto> {
-    return this.patch<UpdateShoppingListItemsResponseDto>(
-      `/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}/items`,
-      dto
-    );
+    return this.patch<UpdateShoppingListItemsResponseDto>(`/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}/items`, dto);
   }
 
   remove(id: number): Observable<ShoppingListModel> {
-    return this.delete<ShoppingListModel>(
-      `/${FeatureUrl.SHOPPING_LISTS}/${id}`
-    );
+    return this.delete<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
   }
 
   toggleShoppingListItemBought(id: number): Observable<ShoppingListItemModel> {
-    return this.patch<ShoppingListItemModel>(
-      `/${FeatureUrl.SHOPPING_LISTS}/items/${id}/bought`,
-      {}
-    );
+    return this.patch<ShoppingListItemModel>(`/${FeatureUrl.SHOPPING_LISTS}/items/${id}/bought`, {});
   }
 }

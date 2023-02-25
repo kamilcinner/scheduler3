@@ -16,15 +16,26 @@
         "tsConfig": "apps/shell/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/shell/src/favicon.ico",
           "apps/shell/src/assets",
-          "apps/shell/src/manifest.webmanifest"
+          {
+            "glob": "**/*",
+            "input": "libs/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "favicon.ico",
+            "input": "libs/shared/assets/src",
+            "output": ""
+          },
+          {
+            "glob": "manifest.webmanifest",
+            "input": "libs/shared/assets/src",
+            "output": ""
+          }
         ],
         "styles": [
           "node_modules/bootstrap/scss/bootstrap.scss",
-          "apps/shell/src/assets/styles/utils.scss",
-          "apps/shell/src/assets/styles/scroll.scss",
-          "apps/shell/src/assets/styles/theme/theme.scss",
+          "libs/shared/styles/src/index.scss",
           "apps/shell/src/styles.scss"
         ],
         "scripts": [],

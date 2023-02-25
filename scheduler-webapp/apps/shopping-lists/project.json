@@ -16,8 +16,12 @@
         "tsConfig": "apps/shopping-lists/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/shopping-lists/src/favicon.ico",
-          "apps/shopping-lists/src/assets"
+          "apps/shopping-lists/src/assets",
+          {
+            "glob": "favicon.ico|manifest.webmanifest",
+            "input": "libs/shared/assets/src",
+            "output": "."
+          }
         ],
         "styles": ["apps/shopping-lists/src/styles.scss"],
         "scripts": [],
@@ -81,10 +85,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/shopping-lists/**/*.ts",
-          "apps/shopping-lists/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/shopping-lists/**/*.ts", "apps/shopping-lists/**/*.html"]
       }
     },
     "test": {

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RemoteEntryComponent } from './entry.component';
 import { remoteRoutes } from './entry.routes';
 import { ShoppingListDetailsComponent } from './shopping-list-details/shopping-list-details.component';
@@ -8,7 +10,7 @@ import { ShoppingListEditComponent } from './shopping-list-edit/shopping-list-ed
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListsService } from './shopping-lists.service';
-import { SharedModule } from '@rennic/shared';
+import { SharedMaterialModule } from '@rennic/shared/material';
 import {
   SelectedShoppingListItemsEffects,
   selectedShoppingListItemsFeature,
@@ -24,15 +26,16 @@ import {
     ShoppingListCreateComponent,
   ],
   imports: [
-    SharedModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(remoteRoutes),
+
+    SharedMaterialModule,
 
     StoreModule.forFeature(shoppingListsFeature),
     StoreModule.forFeature(selectedShoppingListItemsFeature),
-    EffectsModule.forFeature([
-      ShoppingListsEffects,
-      SelectedShoppingListItemsEffects,
-    ]),
+    EffectsModule.forFeature([ShoppingListsEffects, SelectedShoppingListItemsEffects]),
   ],
   providers: [ShoppingListsService],
 })

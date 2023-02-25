@@ -6,11 +6,7 @@ import { CoreModule } from '@rennic/core';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    CoreModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
-  ],
-  providers: [],
+  imports: [CoreModule, RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' })],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

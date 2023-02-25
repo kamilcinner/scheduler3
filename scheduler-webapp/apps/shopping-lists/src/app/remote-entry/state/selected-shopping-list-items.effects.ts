@@ -9,7 +9,8 @@ import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRouterSelectors } from '@ngrx/router-store';
-import { Navigation, NavigationUtils } from '@rennic/shared';
+import { Navigation } from '@rennic/shared/enums';
+import { NavigationUtils } from '@rennic/shared/utils';
 
 const { selectRouteParam } = getRouterSelectors();
 
@@ -24,18 +25,14 @@ export class SelectedShoppingListItemsEffects {
           return of(
             SelectedShoppingListItemsApiActions.getItemsFailure({
               error: new Error('Selected shopping list id is undefined'),
-            })
+            }),
           );
         }
         return this.service.getAllShoppingListItems(+id).pipe(
-          map((items) =>
-            SelectedShoppingListItemsApiActions.getItemsSuccess({ items })
-          ),
-          catchError((error) =>
-            of(SelectedShoppingListItemsApiActions.getItemsFailure({ error }))
-          )
+          map((items) => SelectedShoppingListItemsApiActions.getItemsSuccess({ items })),
+          catchError((error) => of(SelectedShoppingListItemsApiActions.getItemsFailure({ error }))),
         );
-      })
+      }),
     );
   });
 
@@ -48,20 +45,14 @@ export class SelectedShoppingListItemsEffects {
           return of(
             SelectedShoppingListItemsApiActions.updateItemsFailure({
               error: new Error('Selected shopping list id is undefined'),
-            })
+            }),
           );
         }
         return this.service.updateShoppingListItems(+id, dto).pipe(
-          map((dto) =>
-            SelectedShoppingListItemsApiActions.updateItemsSuccess({ dto })
-          ),
-          catchError((error) =>
-            of(
-              SelectedShoppingListItemsApiActions.updateItemsFailure({ error })
-            )
-          )
+          map((dto) => SelectedShoppingListItemsApiActions.updateItemsSuccess({ dto })),
+          catchError((error) => of(SelectedShoppingListItemsApiActions.updateItemsFailure({ error }))),
         );
-      })
+      }),
     );
   });
 
@@ -72,17 +63,12 @@ export class SelectedShoppingListItemsEffects {
         concatLatestFrom(() => this.store.select(selectRouteParam('id'))),
         tap(async ([, id]) => {
           if (id != null) {
-            await this.router.navigate(
-              NavigationUtils.getNavigationCommands(
-                Navigation.SHOPPING_LIST_DETAILS,
-                { id }
-              )
-            );
+            await this.router.navigate(NavigationUtils.getNavigationCommands(Navigation.SHOPPING_LIST_DETAILS, { id }));
           }
-        })
+        }),
       );
     },
-    { dispatch: false }
+    { dispatch: false },
   );
 
   toggleItemBought$ = createEffect(() => {
@@ -93,17 +79,17 @@ export class SelectedShoppingListItemsEffects {
           map((updatedItem) =>
             SelectedShoppingListItemsApiActions.toggleItemBoughtSuccess({
               updatedItem,
-            })
+            }),
           ),
           catchError((error) =>
             of(
               SelectedShoppingListItemsApiActions.toggleItemBoughtFailure({
                 error,
-              })
-            )
-          )
-        )
-      )
+              }),
+            ),
+          ),
+        ),
+      ),
     );
   });
 
@@ -112,6 +98,6 @@ export class SelectedShoppingListItemsEffects {
     private readonly service: ShoppingListsService,
     private readonly store: Store,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
   ) {}
 }

@@ -3,7 +3,7 @@ import { CreateShoppingListDto } from '../dto';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ShoppingListsActions } from '../state';
-import { EntityFormControlsModel } from '@rennic/shared';
+import { EntityFormControlsModel } from '@rennic/shared/models';
 
 type FormModel = FormGroup<EntityFormControlsModel<CreateShoppingListDto>>;
 
@@ -15,10 +15,7 @@ type FormModel = FormGroup<EntityFormControlsModel<CreateShoppingListDto>>;
 export class ShoppingListCreateComponent {
   readonly form: FormModel;
 
-  constructor(
-    private readonly fb: NonNullableFormBuilder,
-    private readonly store: Store
-  ) {
+  constructor(private readonly fb: NonNullableFormBuilder, private readonly store: Store) {
     this.form = this.createForm();
   }
 
@@ -30,7 +27,7 @@ export class ShoppingListCreateComponent {
     this.store.dispatch(
       ShoppingListsActions.create({
         dto: { name: this.form.controls.name.value },
-      })
+      }),
     );
   }
 
