@@ -9,7 +9,7 @@ import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRouterSelectors } from '@ngrx/router-store';
-import { Navigation, NavigationUtils } from '@rennic/commons';
+import { Navigation, NavigationUtils } from '@rennic/shared';
 
 const { selectRouteParam } = getRouterSelectors();
 

@@ -8,7 +8,7 @@ import {
 } from './dto';
 import { Observable } from 'rxjs';
 import { ShoppingListItemModel, ShoppingListModel } from './models';
-import { FeatureUrl, HttpService } from '@rennic/commons';
+import { FeatureUrl, HttpService } from '@rennic/shared';
 
 @Injectable()
 export class ShoppingListsService extends HttpService {

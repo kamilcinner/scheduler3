@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@rennic/commons": ["libs/commons/src/index.ts"]
+      "@rennic/core": ["libs/core/src/index.ts"],
+      "@rennic/shared": ["libs/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

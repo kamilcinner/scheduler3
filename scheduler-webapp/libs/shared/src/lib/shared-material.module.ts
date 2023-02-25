@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   exports: [
@@ -17,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
     MatLineModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSidenavModule,
   ],
 })
-export class MaterialModule {}
+export class SharedMaterialModule {}

@@ -9,7 +9,7 @@ import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SelectedShoppingListItemsActions } from './selected-shopping-list-items.actions';
-import { Navigation, NavigationUtils } from '@rennic/commons';
+import { Navigation, NavigationUtils } from '@rennic/shared';
 
 @Injectable()
 export class ShoppingListsEffects implements OnInitEffects {

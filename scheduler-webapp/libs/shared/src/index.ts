@@ -1,5 +1,5 @@
-export * from './lib/commons.module';
-export * from './lib/material.module';
+export * from './lib/shared.module';
+export * from './lib/shared-material.module';
 
 export * from './lib/models';
 export * from './lib/enums';

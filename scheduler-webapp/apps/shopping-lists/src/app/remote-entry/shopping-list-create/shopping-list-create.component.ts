@@ -3,7 +3,7 @@ import { CreateShoppingListDto } from '../dto';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ShoppingListsActions } from '../state';
-import { EntityFormControlsModel } from '@rennic/commons';
+import { EntityFormControlsModel } from '@rennic/shared';
 
 type FormModel = FormGroup<EntityFormControlsModel<CreateShoppingListDto>>;
 

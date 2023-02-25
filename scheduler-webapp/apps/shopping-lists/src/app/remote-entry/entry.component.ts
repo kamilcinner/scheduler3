@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { Navigation, NavigationUtils, DateFormat } from '@rennic/commons';
+import { Navigation, NavigationUtils, DateFormat } from '@rennic/shared';
 import { ShoppingListModel } from './models';
 import {
   SelectedShoppingListItemsActions,

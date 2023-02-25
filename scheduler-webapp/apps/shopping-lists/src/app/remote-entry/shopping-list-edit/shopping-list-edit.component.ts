@@ -7,7 +7,7 @@ import {
   SelectedShoppingListItemsActions,
   selectSelectedShoppingListItems,
 } from '../state';
-import { EntityFormControlsModel } from '@rennic/commons';
+import { EntityFormControlsModel } from '@rennic/shared';
 
 type ItemFormGroup = FormGroup<EntityFormControlsModel<ShoppingListItemModel>>;
 type ItemsFormArray = FormArray<ItemFormGroup>;

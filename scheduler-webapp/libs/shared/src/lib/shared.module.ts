@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedMaterialModule } from './shared-material.module';
+import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, MaterialModule],
+  imports: [],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    MaterialModule,
+    SharedMaterialModule,
   ],
 })
-export class CommonsModule {}
+export class SharedModule {}
