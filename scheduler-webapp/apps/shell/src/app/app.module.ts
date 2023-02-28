@@ -8,13 +8,16 @@ import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { CoreModule } from '@rennic/core';
 import { SharedMaterialModule } from '@rennic/shared/material';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, SidenavComponent],
   imports: [
+    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
+    TranslateModule,
+
     CoreModule,
     SharedMaterialModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
 
     SocketIoModule.forRoot({ url: 'http://localhost:3000', options: {} }),
 

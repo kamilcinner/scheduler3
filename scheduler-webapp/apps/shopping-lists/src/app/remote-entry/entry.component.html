@@ -1,9 +1,4 @@
-<button
-  mat-raised-button
-  color="primary"
-  class="d-block mx-auto mt-3"
-  (click)="onClickCreate()"
->
+<button mat-raised-button color="primary" class="d-block mx-auto mt-3" (click)="onClickCreate()">
   <span translate="button.create"></span>
 </button>
 
@@ -17,12 +12,8 @@
     >
       <h3 matListItemTitle>{{ shoppingList.name }}</h3>
       <p matListItemLine class="mt-2 w-100 d-inline-flex">
-        <span>{{
-          shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_DATE
-        }}</span>
-        <span class="ms-auto">{{
-          shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_TIME
-        }}</span>
+        <span>{{ shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_DATE }}</span>
+        <span class="ms-auto">{{ shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_TIME }}</span>
       </p>
     </mat-list-item>
   </mat-list>

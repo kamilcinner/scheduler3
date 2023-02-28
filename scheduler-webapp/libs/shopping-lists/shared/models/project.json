@@ -1,0 +1,8 @@
+{
+  "name": "shopping-lists-shared-models",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shopping-lists/shared/models/src",
+  "projectType": "library",
+  "prefix": "rennic",
+  "tags": ["scope:shopping-lists:shared", "type:models"]
+}

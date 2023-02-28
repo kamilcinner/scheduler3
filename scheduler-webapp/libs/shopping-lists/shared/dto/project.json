@@ -1,0 +1,8 @@
+{
+  "name": "shopping-lists-shared-dto",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shopping-lists/shared/dto/src",
+  "projectType": "library",
+  "prefix": "rennic",
+  "tags": ["scope:shopping-lists:shared", "type:dto"]
+}

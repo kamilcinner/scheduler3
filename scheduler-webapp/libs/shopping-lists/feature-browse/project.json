@@ -1,16 +1,15 @@
 {
-  "name": "shared-material",
+  "name": "shopping-lists-feature-browse",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/material/src",
   "projectType": "library",
+  "sourceRoot": "libs/shopping-lists/feature-browse/src",
   "prefix": "rennic",
-  "tags": ["scope:shared", "type:material"],
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/shared/jest.config.ts",
+        "jestConfig": "libs/shopping-lists/feature-browse/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -24,8 +23,12 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/shared/**/*.ts", "libs/shared/**/*.html"]
+        "lintFilePatterns": [
+          "libs/shopping-lists/feature-browse/**/*.ts",
+          "libs/shopping-lists/feature-browse/**/*.html"
+        ]
       }
     }
-  }
+  },
+  "tags": ["scope:shopping-lists", "type:feature"]
 }

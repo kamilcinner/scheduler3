@@ -17,12 +17,18 @@
     "paths": {
       "@rennic/core": ["libs/core/src/index.ts"],
       "@rennic/shared": ["libs/shared/src/index.ts"],
-      "@rennic/shared/styles": ["libs/shared/styles/index.scss"],
       "@rennic/shared/enums": ["libs/shared/enums/src/index.ts"],
+      "@rennic/shared/material": ["libs/shared/material/src/index.ts"],
       "@rennic/shared/models": ["libs/shared/models/src/index.ts"],
-      "@rennic/shared/utils": ["libs/shared/utils/src/index.ts"],
       "@rennic/shared/services": ["libs/shared/services/src/index.ts"],
-      "@rennic/shared/material": ["libs/shared/material/src/index.ts"]
+      "@rennic/shared/styles": ["libs/shared/styles/index.scss"],
+      "@rennic/shared/utils": ["libs/shared/utils/src/index.ts"],
+      "@rennic/shopping-lists/data-access": ["libs/shopping-lists/data-access/src/index.ts"],
+      "@rennic/shopping-lists/feature-browse": ["libs/shopping-lists/feature-browse/src/index.ts"],
+      "@rennic/shopping-lists/feature-create": ["libs/shopping-lists/feature-create/src/index.ts"],
+      "@rennic/shopping-lists/feature-details": ["libs/shopping-lists/feature-details/src/index.ts"],
+      "@rennic/shopping-lists/shared/models": ["libs/shopping-lists/shared/models/src/index.ts"],
+      "@rennic/shopping-lists/shared/dto": ["libs/shopping-lists/shared/dto/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

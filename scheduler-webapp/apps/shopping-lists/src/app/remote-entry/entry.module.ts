@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ShoppingListsService } from './shopping-lists.service';
 import { SharedMaterialModule } from '@rennic/shared/material';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   SelectedShoppingListItemsEffects,
   selectedShoppingListItemsFeature,
@@ -30,6 +31,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(remoteRoutes),
+    TranslateModule,
 
     SharedMaterialModule,
 
