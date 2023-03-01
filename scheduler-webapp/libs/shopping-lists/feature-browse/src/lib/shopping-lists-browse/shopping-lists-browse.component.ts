@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
+import { ShoppingListModel } from '@rennic/shopping-lists/shared/models';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { Navigation, DateFormat } from '@rennic/shared/enums';
+import {
+  SelectedShoppingListItemsActions,
+  selectShoppingLists,
+  ShoppingListsActions,
+} from '@rennic/shopping-lists/data-access';
 import { NavigationUtils } from '@rennic/shared/utils';
-import { ShoppingListModel } from './models';
-import { SelectedShoppingListItemsActions, selectShoppingLists, ShoppingListsActions } from './state';
+import { Navigation, DateFormat } from '@rennic/shared/enums';
 
 @Component({
-  selector: 'rennic-shopping-lists-entry',
-  templateUrl: 'entry.component.html',
-  styleUrls: ['entry.component.scss'],
+  selector: 'rennic-shopping-lists-browse',
+  templateUrl: './shopping-lists-browse.component.html',
+  styleUrls: ['./shopping-lists-browse.component.scss'],
 })
-export class RemoteEntryComponent implements OnInit {
+export class ShoppingListsBrowseComponent implements OnInit {
   readonly DateFormat = DateFormat;
   readonly vm$: Observable<{ shoppingLists: ShoppingListModel[] }>;
 

@@ -1,16 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, combineLatest, map, Subject, takeUntil } from 'rxjs';
-import { ShoppingListItemModel } from '../models';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  SelectedShoppingListItemsActions,
-  selectSelectedShoppingListItems,
-} from '../state';
+import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import { ShoppingListItemModel } from '@rennic/shopping-lists/shared/models';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Socket } from 'ngx-socket-io';
+import { SelectedShoppingListItemsActions, selectSelectedShoppingListItems } from '@rennic/shopping-lists/data-access';
 
 @Component({
-  selector: 'rennic-shopping-lists-details',
+  selector: 'rennic-shopping-list-details',
   templateUrl: './shopping-list-details.component.html',
   styleUrls: ['./shopping-list-details.component.scss'],
 })
@@ -19,22 +16,18 @@ export class ShoppingListDetailsComponent implements OnInit, OnDestroy {
     selectedShoppingListItems: ShoppingListItemModel[];
   }>;
 
-  private readonly selectedShoppingListItems$: Observable<
-    ShoppingListItemModel[]
-  >;
+  private readonly selectedShoppingListItems$: Observable<ShoppingListItemModel[]>;
   private readonly destroyed$ = new Subject<void>();
 
   constructor(
     private readonly store: Store,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly socket: Socket
+    private readonly socket: Socket,
   ) {
-    this.selectedShoppingListItems$ = this.store.select(
-      selectSelectedShoppingListItems
-    );
+    this.selectedShoppingListItems$ = this.store.select(selectSelectedShoppingListItems);
     this.vm$ = combineLatest([this.selectedShoppingListItems$]).pipe(
-      map(([selectedShoppingListItems]) => ({ selectedShoppingListItems }))
+      map(([selectedShoppingListItems]) => ({ selectedShoppingListItems })),
     );
   }
 
@@ -51,9 +44,7 @@ export class ShoppingListDetailsComponent implements OnInit, OnDestroy {
   }
 
   onClickItem(item: ShoppingListItemModel): void {
-    this.store.dispatch(
-      SelectedShoppingListItemsActions.toggleItemBought({ id: item.id })
-    );
+    this.store.dispatch(SelectedShoppingListItemsActions.toggleItemBought({ id: item.id }));
   }
 
   async onClickEdit(): Promise<void> {

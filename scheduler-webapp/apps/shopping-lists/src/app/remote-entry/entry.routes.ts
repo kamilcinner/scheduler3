@@ -1,11 +1,14 @@
 import { Route } from '@angular/router';
-import { RemoteEntryComponent } from './entry.component';
-import { ShoppingListCreateComponent } from './shopping-list-create/shopping-list-create.component';
-import { ShoppingListDetailsComponent } from './shopping-list-details/shopping-list-details.component';
-import { ShoppingListEditComponent } from './shopping-list-edit/shopping-list-edit.component';
+import { ShoppingListsBrowseComponent } from '@rennic/shopping-lists/feature-browse';
+import { ShoppingListDetailsComponent } from '@rennic/shopping-lists/feature-details';
+import { ShoppingListCreateComponent } from '@rennic/shopping-lists/feature-create';
+import { ShoppingListEditComponent } from '@rennic/shopping-lists/feature-edit';
 
 export const remoteRoutes: Route[] = [
-  { path: '', component: RemoteEntryComponent },
+  {
+    path: '',
+    component: ShoppingListsBrowseComponent,
+  },
   {
     path: 'create',
     component: ShoppingListCreateComponent,

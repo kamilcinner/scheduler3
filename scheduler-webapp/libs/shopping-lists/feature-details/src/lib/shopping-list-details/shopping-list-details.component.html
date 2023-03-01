@@ -6,31 +6,17 @@
       [class.bought]="item.bought"
       (click)="onClickItem(item)"
     >
-      <p
-        matLine
-        matRipple
-        class="d-inline-flex align-items-center gap-2 rounded-2 p-2"
-      >
+      <p matLine matRipple class="d-inline-flex align-items-center gap-2 rounded-2 p-2">
         <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
         <span>{{ item.name }}</span>
       </p>
     </mat-list-item>
   </mat-list>
 
-  <button
-    mat-raised-button
-    color="primary"
-    class="d-block mx-auto"
-    (click)="onClickEdit()"
-  >
+  <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickEdit()">
     <span translate="button.edit"></span>
   </button>
-  <button
-    mat-raised-button
-    color="primary"
-    class="d-block mx-auto"
-    (click)="onClickSendMessage()"
-  >
+  <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickSendMessage()">
     <span>send mes</span>
   </button>
 </ng-container>

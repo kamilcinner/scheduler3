@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { ShoppingListItemModel } from '../models';
-import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { ShoppingListItemModel } from '@rennic/shopping-lists/shared/models';
 import { Store } from '@ngrx/store';
-import { SelectedShoppingListItemsActions, selectSelectedShoppingListItems } from '../state';
+import { FormArray, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { SelectedShoppingListItemsActions, selectSelectedShoppingListItems } from '@rennic/shopping-lists/data-access';
 import { EntityFormControlsModel } from '@rennic/shared/models';
 
 type ItemFormGroup = FormGroup<EntityFormControlsModel<ShoppingListItemModel>>;
@@ -11,10 +11,8 @@ type ItemsFormArray = FormArray<ItemFormGroup>;
 type ItemsFormGroup = FormGroup<{ items: ItemsFormArray }>;
 
 @Component({
-  selector: 'rennic-shopping-lists-edit',
+  selector: 'rennic-shopping-list-edit',
   templateUrl: './shopping-list-edit.component.html',
-  styleUrls: ['./shopping-list-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShoppingListEditComponent implements OnInit {
   private static readonly INITIAL_EMPTY_FIELDS_COUNT = 3;

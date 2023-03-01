@@ -27,8 +27,9 @@
       "@rennic/shopping-lists/feature-browse": ["libs/shopping-lists/feature-browse/src/index.ts"],
       "@rennic/shopping-lists/feature-create": ["libs/shopping-lists/feature-create/src/index.ts"],
       "@rennic/shopping-lists/feature-details": ["libs/shopping-lists/feature-details/src/index.ts"],
-      "@rennic/shopping-lists/shared/models": ["libs/shopping-lists/shared/models/src/index.ts"],
-      "@rennic/shopping-lists/shared/dto": ["libs/shopping-lists/shared/dto/src/index.ts"]
+      "@rennic/shopping-lists/feature-edit": ["libs/shopping-lists/feature-edit/src/index.ts"],
+      "@rennic/shopping-lists/shared/dto": ["libs/shopping-lists/shared/dto/src/index.ts"],
+      "@rennic/shopping-lists/shared/models": ["libs/shopping-lists/shared/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

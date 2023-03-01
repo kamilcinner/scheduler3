@@ -10,7 +10,6 @@ type FormModel = FormGroup<EntityFormControlsModel<CreateShoppingListDto>>;
 @Component({
   selector: 'rennic-shopping-list-create',
   templateUrl: './shopping-list-create.component.html',
-  styleUrls: ['./shopping-list-create.component.scss'],
 })
 export class ShoppingListCreateComponent {
   readonly form: FormModel;
