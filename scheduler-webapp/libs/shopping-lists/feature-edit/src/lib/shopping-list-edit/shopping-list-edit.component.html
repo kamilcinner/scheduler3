@@ -1,18 +1,17 @@
 <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <mat-list class="list" formArrayName="items">
+  <mat-list formArrayName="items">
     <mat-list-item
       *ngFor="let itemFormGroup of form.controls.items.controls; index as itemFormGroupIndex"
+      [style.height]="'unset'"
       [formGroupName]="itemFormGroupIndex"
-      class="item"
-      [class.bought]="itemFormGroup.controls.bought.value"
     >
-      <p matLine class="d-inline-flex align-items-center">
-        <span matRipple class="d-inline-flex align-items-center gap-2 flex-grow-1 p-1 rounded-2">
-          <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
-          <mat-form-field class="w-100">
-            <input matInput formControlName="name" />
-          </mat-form-field>
-        </span>
+      <p class="d-inline-flex align-items-center w-100">
+        <!--        <span matRipple class="d-inline-flex align-items-center gap-2 flex-grow-1 p-1 rounded-2">-->
+        <!--        </span>-->
+        <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
+        <mat-form-field class="w-100 ms-3 me-1">
+          <input matInput formControlName="name" />
+        </mat-form-field>
         <button mat-icon-button color="warn" (click)="onClickRemove(itemFormGroupIndex)">
           <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
         </button>

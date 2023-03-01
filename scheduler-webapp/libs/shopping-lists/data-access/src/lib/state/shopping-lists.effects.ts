@@ -4,7 +4,7 @@ import { ShoppingListsService } from '../shopping-lists.service';
 import { ShoppingListsActions, ShoppingListsApiActions } from './shopping-lists.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectedShoppingListItemsActions } from './selected-shopping-list-items.actions';
 import { Navigation } from '@rennic/shared/enums';
 import { NavigationUtils } from '@rennic/shared/utils';
@@ -77,7 +77,7 @@ export class ShoppingListsEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(ShoppingListsActions.select),
       mergeMap(async ({ id }) => {
-        await this.router.navigate(NavigationUtils.getNavigationCommands(Navigation.SHOPPING_LIST_DETAILS, { id }));
+        await this.router.navigate([id], { relativeTo: this.route });
         return SelectedShoppingListItemsActions.getItems();
       }),
     );
@@ -87,6 +87,7 @@ export class ShoppingListsEffects implements OnInitEffects {
     private readonly actions$: Actions,
     private readonly service: ShoppingListsService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {}
 
   ngrxOnInitEffects(): Action {

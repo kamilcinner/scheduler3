@@ -18,12 +18,26 @@
         "assets": [
           "apps/shopping-lists/src/assets",
           {
-            "glob": "favicon.ico|manifest.webmanifest",
+            "glob": "**/*",
+            "input": "libs/shared/assets/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "favicon.ico",
             "input": "libs/shared/assets/src",
-            "output": "."
+            "output": ""
+          },
+          {
+            "glob": "manifest.webmanifest",
+            "input": "libs/shared/assets/src",
+            "output": ""
           }
         ],
-        "styles": ["apps/shopping-lists/src/styles.scss"],
+        "styles": [
+          "node_modules/bootstrap/scss/bootstrap.scss",
+          "libs/shared/styles/src/index.scss",
+          "apps/shopping-lists/src/styles.scss"
+        ],
         "scripts": [],
         "customWebpackConfig": {
           "path": "apps/shopping-lists/webpack.config.js"

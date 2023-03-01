@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { SocketIoModule } from 'ngx-socket-io';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -29,6 +30,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+
+    SocketIoModule.forRoot({ url: 'http://localhost:3000', options: {} }),
   ],
   exports: [BrowserModule, BrowserAnimationsModule, HttpClientModule],
 })
