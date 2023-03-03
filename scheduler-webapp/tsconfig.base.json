@@ -24,10 +24,7 @@
       "@rennic/shared/styles": ["libs/shared/styles/index.scss"],
       "@rennic/shared/utils": ["libs/shared/utils/src/index.ts"],
       "@rennic/shopping-lists/data-access": ["libs/shopping-lists/data-access/src/index.ts"],
-      "@rennic/shopping-lists/feature-browse": ["libs/shopping-lists/feature-browse/src/index.ts"],
-      "@rennic/shopping-lists/feature-create": ["libs/shopping-lists/feature-create/src/index.ts"],
-      "@rennic/shopping-lists/feature-details": ["libs/shopping-lists/feature-details/src/index.ts"],
-      "@rennic/shopping-lists/feature-edit": ["libs/shopping-lists/feature-edit/src/index.ts"],
+      "@rennic/shopping-lists/features": ["libs/shopping-lists/features/src/index.ts"],
       "@rennic/shopping-lists/shared/dto": ["libs/shopping-lists/shared/dto/src/index.ts"],
       "@rennic/shopping-lists/shared/models": ["libs/shopping-lists/shared/models/src/index.ts"]
     }

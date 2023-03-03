@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'shopping-lists-feature-edit',
+  displayName: 'shopping-lists-feature',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/shopping-lists/feature-edit',
+  coverageDirectory: '../../../coverage/libs/shopping-lists/feature',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

@@ -31,7 +31,7 @@ export class ShoppingListsBrowseComponent implements OnInit {
     this.store.dispatch(SelectedShoppingListItemsActions.reset());
   }
 
-  async onClickShoppingList(shoppingList: ShoppingListModel): Promise<void> {
+  onClickShoppingList(shoppingList: ShoppingListModel): void {
     this.store.dispatch(ShoppingListsActions.select({ id: shoppingList.id }));
   }
 
