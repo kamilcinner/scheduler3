@@ -13,10 +13,11 @@
     </mat-list-item>
   </mat-list>
 
-  <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickEdit()">
-    <span translate="button.edit"></span>
-  </button>
   <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickSendMessage()">
     <span>send mes</span>
   </button>
 </ng-container>
+
+<button mat-fab color="accent" class="fab" (click)="onClickEdit()">
+  <mat-icon>edit</mat-icon>
+</button>
