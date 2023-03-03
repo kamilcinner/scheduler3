@@ -4,7 +4,7 @@ import {
   ShoppingListDetailsComponent,
   ShoppingListEditComponent,
   ShoppingListsBrowseComponent,
-} from '@rennic/shopping-lists/feature';
+} from '@rennic/shopping-lists/features';
 
 export const remoteRoutes: Route[] = [
   {

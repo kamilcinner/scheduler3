@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { ShoppingListsService } from '../shopping-lists.service';
 import { ShoppingListsActions, ShoppingListsApiActions } from './shopping-lists.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { Action } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Action, Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 import { SelectedShoppingListItemsActions } from './selected-shopping-list-items.actions';
 import { Navigation } from '@rennic/shared/enums';
 import { NavigationUtils } from '@rennic/shared/utils';
+import { getRouterSelectors } from '@ngrx/router-store';
 
 @Injectable()
 export class ShoppingListsEffects implements OnInitEffects {
@@ -76,8 +77,9 @@ export class ShoppingListsEffects implements OnInitEffects {
   select$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ShoppingListsActions.select),
-      mergeMap(async ({ id }) => {
-        await this.router.navigate([id], { relativeTo: this.route });
+      concatLatestFrom(() => this.store.select(getRouterSelectors().selectUrl)),
+      mergeMap(async ([{ id }, url]) => {
+        await this.router.navigate([url, id]);
         return SelectedShoppingListItemsActions.getItems();
       }),
     );
@@ -87,7 +89,7 @@ export class ShoppingListsEffects implements OnInitEffects {
     private readonly actions$: Actions,
     private readonly service: ShoppingListsService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
+    private readonly store: Store,
   ) {}
 
   ngrxOnInitEffects(): Action {
