@@ -1,47 +1,46 @@
 {
   "root": true,
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
-  "parser": "@typescript-eslint/parser",
-  "ignorePatterns": ["karma.conf.js"],
-  "rules": {
-    "@typescript-eslint/no-namespace": "off"
-  },
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
-      "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["tsconfig.json"],
-        "createDefaultProgram": true
-      },
-      "extends": ["plugin:@angular-eslint/recommended", "plugin:@angular-eslint/template/process-inline-templates"],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@angular-eslint/directive-selector": [
+        "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "scope:shell",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:shared"]
+              },
+              {
+                "sourceTag": "scope:shopping-lists",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:shared", "scope:shopping-lists"]
+              }
+            ]
           }
         ]
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
       "rules": {}
     },
     {
-      "files": ["*.ts"],
-      "extends": ["plugin:@ngrx/recommended"]
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/javascript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+        "jest": true
+      },
+      "rules": {}
     }
   ]
 }

@@ -1,0 +1,23 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <mat-list class="list m-3">
+    <mat-list-item
+      *ngFor="let item of vm.selectedShoppingListItems"
+      class="item mb-2"
+      [class.bought]="item.bought"
+      (click)="onClickItem(item)"
+    >
+      <p matLine matRipple class="d-inline-flex align-items-center gap-2 rounded-2 p-2">
+        <mat-icon fontSet="material-icons-outlined">shopping_cart</mat-icon>
+        <span>{{ item.name }}</span>
+      </p>
+    </mat-list-item>
+  </mat-list>
+
+  <button mat-raised-button color="primary" class="d-block mx-auto" (click)="onClickSendMessage()">
+    <span>send mes</span>
+  </button>
+</ng-container>
+
+<button mat-fab color="accent" class="fab" (click)="onClickEdit()">
+  <mat-icon>edit</mat-icon>
+</button>

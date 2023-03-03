@@ -1,0 +1,20 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <mat-list class="m-3">
+    <mat-list-item
+      *ngFor="let shoppingList of vm.shoppingLists"
+      matRipple
+      class="shopping-list mb-3 rounded-2"
+      (click)="onClickShoppingList(shoppingList)"
+    >
+      <h3 matListItemTitle>{{ shoppingList.name }}</h3>
+      <p matListItemLine class="mt-2 w-100 d-inline-flex">
+        <span>{{ shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_DATE }}</span>
+        <span class="ms-auto">{{ shoppingList.lastEditDateTime | date: DateFormat.DATE_PIPE_TIME }}</span>
+      </p>
+    </mat-list-item>
+  </mat-list>
+</ng-container>
+
+<button mat-fab color="accent" class="fab" (click)="onClickCreate()">
+  <mat-icon>add</mat-icon>
+</button>

@@ -1,0 +1,8 @@
+{
+  "name": "shopping-lists-utils",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shopping-lists/utils/src",
+  "projectType": "library",
+  "prefix": "rennic",
+  "tags": ["scope:shopping-lists", "type:utils"]
+}

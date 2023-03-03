@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+@use './css-variables' as theme-css-variables;
+@use './palette' as app-palette;
+
+@include mat.all-component-typographies();
+@include mat.core();
+
+$app-primary: mat.define-palette(app-palette.$primary, 600, 300, 900, 50);
+$app-secondary: mat.define-palette(app-palette.$secondary, 500, 300, 900, 50);
+
+$app-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $app-primary,
+      accent: $app-secondary,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+@include mat.core-theme($app-theme);
+@include mat.all-component-themes($app-theme);
+
+@include theme-css-variables.color-variables($app-theme);
