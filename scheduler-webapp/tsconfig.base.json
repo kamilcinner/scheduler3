@@ -25,6 +25,7 @@
       "@rennic/shared/utils": ["libs/shared/utils/src/index.ts"],
       "@rennic/shopping-lists/data-access": ["libs/shopping-lists/data-access/src/index.ts"],
       "@rennic/shopping-lists/features": ["libs/shopping-lists/features/src/index.ts"],
+      "@rennic/shopping-lists/utils": ["libs/shopping-lists/utils/src/index.ts"],
       "@rennic/shopping-lists/shared/dto": ["libs/shopping-lists/shared/dto/src/index.ts"],
       "@rennic/shopping-lists/shared/models": ["libs/shopping-lists/shared/models/src/index.ts"]
     }

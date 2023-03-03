@@ -133,5 +133,6 @@
       }
     }
   },
-  "tags": ["scope:shopping-lists"]
+  "tags": ["scope:shopping-lists"],
+  "implicitDependencies": ["shared-assets", "shared-styles"]
 }

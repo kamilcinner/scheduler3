@@ -4,5 +4,5 @@
   "sourceRoot": "libs/shopping-lists/shared/models/src",
   "projectType": "library",
   "prefix": "rennic",
-  "tags": ["scope:shopping-lists:shared", "type:models"]
+  "tags": ["scope:shopping-lists", "type:models"]
 }

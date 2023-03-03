@@ -5,12 +5,12 @@ import {
   SelectedShoppingListItemsActions,
   SelectedShoppingListItemsApiActions,
 } from './selected-shopping-list-items.actions';
-import { ShoppingListsService } from '../shopping-lists.service';
+import { ShoppingListsSortUtils } from '@rennic/shopping-lists/utils';
 
 export type SelectedShoppingListItemsStateModel = EntityState<ShoppingListItemModel>;
 
 export const selectedShoppingListItemsAdapter = createEntityAdapter<ShoppingListItemModel>({
-  sortComparer: ShoppingListsService.sortShoppingListItems,
+  sortComparer: ShoppingListsSortUtils.sortShoppingListItems,
 });
 
 const initialState: SelectedShoppingListItemsStateModel = selectedShoppingListItemsAdapter.getInitialState();

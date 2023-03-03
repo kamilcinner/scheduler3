@@ -13,28 +13,6 @@ import { HttpService } from '@rennic/shared/services';
 
 @Injectable()
 export class ShoppingListsService extends HttpService {
-  static sortShoppingListItems(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
-    let result = ShoppingListsService.sortShoppingListItemsByBought(a, b);
-    if (result === 0) {
-      result = ShoppingListsService.sortShoppingListItemsByName(a, b);
-    }
-    return result;
-  }
-
-  static sortShoppingListItemsByBought(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
-    if (!a.bought && b.bought) {
-      return -1;
-    }
-    if (a.bought && !b.bought) {
-      return 1;
-    }
-    return 0;
-  }
-
-  static sortShoppingListItemsByName(a: ShoppingListItemModel, b: ShoppingListItemModel): number {
-    return a.name.localeCompare(b.name);
-  }
-
   constructor(protected override readonly http: HttpClient) {
     super(http);
   }

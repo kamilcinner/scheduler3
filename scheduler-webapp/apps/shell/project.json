@@ -120,5 +120,6 @@
       }
     }
   },
-  "tags": ["scope:shell"]
+  "tags": ["scope:shell"],
+  "implicitDependencies": ["shared-assets", "shared-styles"]
 }

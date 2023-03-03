@@ -27,5 +27,5 @@
       }
     }
   },
-  "tags": ["scope:shopping-lists", "types:features"]
+  "tags": ["scope:shopping-lists", "type:features"]
 }
