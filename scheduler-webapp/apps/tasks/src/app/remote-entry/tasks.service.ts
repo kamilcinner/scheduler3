@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task } from './models';
 import { FeatureUrl } from '@rennic/shared/enums';
-import { CreateTaskDto } from './dto/create-task.dto';
+import { CreateTaskDto } from './dto';
 
 @Injectable()
 export class TasksService extends HttpService {

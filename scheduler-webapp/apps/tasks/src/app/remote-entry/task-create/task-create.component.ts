@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { EntityFormControlsModel } from '@rennic/shared/models';
-import { CreateTaskDto } from '../dto/create-task.dto';
+import { CreateTaskDto } from '../dto';
 import { TasksService } from '../tasks.service';
 import { Router } from '@angular/router';
 import { NavigationUtils } from '@rennic/shared/utils';
