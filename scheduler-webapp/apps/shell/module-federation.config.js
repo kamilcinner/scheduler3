@@ -1,4 +1,4 @@
 module.exports = {
   name: 'shell',
-  remotes: ['shopping-lists'],
+  remotes: ['shopping-lists', 'tasks'],
 };
