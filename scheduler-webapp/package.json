@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve shell --devRemotes=shopping-lists,tasks"
+    "start:shell": "nx serve shell",
+    "start:all": "nx serve shell --devRemotes=shopping-lists,tasks"
   },
   "private": true,
   "devDependencies": {
