@@ -1,6 +1,32 @@
+# docker
 Dockerfile
 .dockerignore
+
+# cache
 .angular
+
+# ide
 .vscode
+
+# output
 node_modules
 dist
+
+# git
+.gitignore
+
+# eslint
+.eslintignore
+.eslintrc.json
+
+# prettier
+.prettierignore
+.prettierrc
+
+# NX
+tools
+jest.config.ts
+jest.preset.js
+nx.json
+README.md
+tsconfig.base.json
