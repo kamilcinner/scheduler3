@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { EntityFormControlsModel } from '@rennic/shared/models';
-import { CreateTaskDto } from '../dto';
 import { TasksService } from '../tasks.service';
 import { Router } from '@angular/router';
 import { NavigationUtils } from '@rennic/shared/utils';
 import { Navigation } from '@rennic/shared/enums';
+import { CreateTaskDto } from '../models';
 
 type FormModel = FormGroup<EntityFormControlsModel<CreateTaskDto>>;
 
