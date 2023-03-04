@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start:shell": "nx serve shell",
-    "start:all": "nx serve shell --devRemotes=shopping-lists,tasks"
+    "start:all": "nx serve shell --devRemotes=shopping-lists,tasks",
+    "build": "nx build shell"
   },
   "private": true,
   "devDependencies": {

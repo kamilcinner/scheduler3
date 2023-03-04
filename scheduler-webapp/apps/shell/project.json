@@ -113,5 +113,5 @@
     }
   },
   "tags": ["scope:shell"],
-  "implicitDependencies": ["shared-assets", "shared-styles"]
+  "implicitDependencies": ["shopping-lists", "tasks", "shared-assets", "shared-styles"]
 }
