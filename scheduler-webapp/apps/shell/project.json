@@ -18,6 +18,7 @@
         "assets": [
           "apps/shell/src/assets",
           "apps/shell/src/manifest.webmanifest",
+          "apps/shell/src/favicon.ico",
           {
             "glob": "**/*",
             "input": "libs/shared/assets/src/assets",

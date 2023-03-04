@@ -8,6 +8,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { CoreModule } from '@rennic/core';
 import { SharedMaterialModule } from '@rennic/shared/material';
 import { TranslateModule } from '@ngx-translate/core';
+import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, SidenavComponent],
@@ -24,6 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    SocketIoModule.forRoot({ url: 'http://localhost:3000', options: {} }),
   ],
   bootstrap: [AppComponent],
 })

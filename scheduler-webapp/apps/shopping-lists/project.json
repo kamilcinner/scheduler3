@@ -48,6 +48,12 @@
             }
           ],
           "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/shopping-lists/src/environments/environment.ts",
+              "with": "apps/shopping-lists/src/environments/environment.prod.ts"
+            }
+          ],
           "customWebpackConfig": {
             "path": "apps/shopping-lists/webpack.prod.config.js"
           }
