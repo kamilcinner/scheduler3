@@ -1,6 +1,6 @@
 {
   "name": "tasks",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/tasks/src",
   "prefix": "rennic",
@@ -15,8 +15,19 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/tasks/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/tasks/src/favicon.ico", "apps/tasks/src/assets"],
-        "styles": ["apps/tasks/src/styles.scss"],
+        "assets": [
+          "apps/tasks/src/assets",
+          {
+            "glob": "**/*",
+            "input": "libs/shared/assets/src/assets",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "node_modules/bootstrap/scss/bootstrap.scss",
+          "libs/shared/styles/src/index.scss",
+          "apps/tasks/src/styles.scss"
+        ],
         "scripts": [],
         "customWebpackConfig": {
           "path": "apps/tasks/webpack.config.js"
@@ -112,5 +123,5 @@
       }
     }
   },
-  "tags": []
+  "tags": ["scope:tasks"]
 }
