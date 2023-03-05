@@ -63,7 +63,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "serviceWorker": true
+          "serviceWorker": false
         }
       },
       "defaultConfiguration": "production"
