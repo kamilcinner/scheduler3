@@ -4,8 +4,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ARG configuration=docker
-RUN npm run build -- --output-path=./dist/out --configuration $configuration
+RUN npm run build
 
 # Stage 2, use the compiled app, ready for production with Nginx
 FROM nginx
