@@ -3,9 +3,9 @@ import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { EntityFormControlsModel } from '@rennic/shared/models';
 import { TasksService } from '../tasks.service';
 import { Router } from '@angular/router';
-import { NavigationUtils } from '@rennic/shared/utils';
-import { Navigation } from '@rennic/shared/enums';
 import { CreateTaskDto } from '../models';
+import { Store } from '@ngrx/store';
+import { TasksActions } from '../state';
 
 type FormModel = FormGroup<EntityFormControlsModel<CreateTaskDto>>;
 
@@ -21,6 +21,7 @@ export class TaskCreateComponent {
     private readonly fb: NonNullableFormBuilder,
     private readonly tasksService: TasksService,
     private readonly router: Router,
+    private readonly store: Store,
   ) {
     this.form = this.createForm();
   }
@@ -30,9 +31,7 @@ export class TaskCreateComponent {
       return;
     }
 
-    this.tasksService
-      .create(this.form.getRawValue())
-      .subscribe({ complete: () => this.router.navigate(NavigationUtils.getNavigationCommands(Navigation.TASKS)) });
+    this.store.dispatch(TasksActions.create({ dto: this.form.getRawValue() }));
   }
 
   private createForm(): FormModel {

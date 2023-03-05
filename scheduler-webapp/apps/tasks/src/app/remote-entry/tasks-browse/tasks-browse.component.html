@@ -1,14 +1,16 @@
-<mat-list class="m-3">
-  <mat-list-item *ngFor="let task of tasks" class="task mb-3 rounded-2">
-    <h3 matListItemTitle>{{ task.name }}</h3>
-    <p *ngIf="task.description as desc" matListItemLine class="">
-      <span>{{ desc }}</span>
-    </p>
-    <div matListItemMeta>
-      <button mat-icon-button (click)="onClickDelete(task)"><mat-icon>delete</mat-icon></button>
-    </div>
-  </mat-list-item>
-</mat-list>
+<ng-container *ngIf="vm$ | async as vm">
+  <mat-list class="m-3">
+    <mat-list-item *ngFor="let task of vm.tasks" class="task mb-3 rounded-2">
+      <h3 matListItemTitle>{{ task.name }}</h3>
+      <p *ngIf="task.description as desc" matListItemLine class="">
+        <span>{{ desc }}</span>
+      </p>
+      <div matListItemMeta>
+        <button mat-icon-button (click)="onClickDelete(task)"><mat-icon>delete</mat-icon></button>
+      </div>
+    </mat-list-item>
+  </mat-list>
+</ng-container>
 
 <button mat-fab color="accent" class="fab" (click)="onClickCreate()">
   <mat-icon>add</mat-icon>

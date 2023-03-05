@@ -10,6 +10,9 @@ import { TasksService } from './tasks.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { API_URL } from '@rennic/shared/services';
 import { environment } from '../../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { TasksEffects, tasksFeature } from './state';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [TasksBrowseComponent, TaskCreateComponent],
@@ -20,6 +23,9 @@ import { environment } from '../../environments/environment';
     ReactiveFormsModule,
     SharedMaterialModule,
     TranslateModule,
+
+    StoreModule.forFeature(tasksFeature),
+    EffectsModule.forFeature([TasksEffects]),
   ],
   providers: [
     TasksService,
