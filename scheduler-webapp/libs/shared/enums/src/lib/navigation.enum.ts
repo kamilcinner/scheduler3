@@ -3,4 +3,7 @@ export enum Navigation {
   SHOPPING_LIST_CREATE,
   SHOPPING_LIST_DETAILS,
   SHOPPING_LIST_EDIT,
+
+  TASKS,
+  TASK_CREATE,
 }

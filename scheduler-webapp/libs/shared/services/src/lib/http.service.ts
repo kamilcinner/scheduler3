@@ -1,12 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-// import { environment } from '@env';
-
-const environment = {
-  production: false,
-  API_URL: 'http://localhost:3000',
-};
 
 type HttpOptions = {
   headers?: HttpHeaders | { [header: string]: string | string[] };
@@ -30,14 +23,11 @@ enum HttpResponseType {
   TEXT = 'text',
 }
 
-@Injectable({
-  providedIn: 'root',
-})
 export class HttpService {
-  constructor(protected readonly http: HttpClient) {}
+  constructor(protected readonly http: HttpClient, protected readonly apiUrlPrefix: string) {}
 
   protected get<T>(url: string, options?: HttpOptions): Observable<T> {
-    return this.http.get<T>(`${environment.API_URL}${url}`, {
+    return this.http.get<T>(`${this.apiUrlPrefix}${url}`, {
       ...options,
       observe: HttpObserveType.BODY,
       responseType: HttpResponseType.JSON,
@@ -45,7 +35,7 @@ export class HttpService {
   }
 
   protected post<T>(url: string, body: Record<string, unknown>, options?: HttpOptions): Observable<T> {
-    return this.http.post<T>(`${environment.API_URL}${url}`, body, {
+    return this.http.post<T>(`${this.apiUrlPrefix}${url}`, body, {
       ...options,
       observe: HttpObserveType.BODY,
       responseType: HttpResponseType.JSON,
@@ -53,7 +43,7 @@ export class HttpService {
   }
 
   protected patch<T>(url: string, body: Record<string, unknown>, options?: HttpOptions): Observable<T> {
-    return this.http.patch<T>(`${environment.API_URL}${url}`, body, {
+    return this.http.patch<T>(`${this.apiUrlPrefix}${url}`, body, {
       ...options,
       observe: HttpObserveType.BODY,
       responseType: HttpResponseType.JSON,
@@ -61,7 +51,7 @@ export class HttpService {
   }
 
   protected put<T>(url: string, body: Record<string, unknown>, options?: HttpOptions): Observable<T> {
-    return this.http.put<T>(`${environment.API_URL}${url}`, body, {
+    return this.http.put<T>(`${this.apiUrlPrefix}${url}`, body, {
       ...options,
       observe: HttpObserveType.BODY,
       responseType: HttpResponseType.JSON,
@@ -69,7 +59,7 @@ export class HttpService {
   }
 
   protected delete<T>(url: string, body?: Record<string, unknown>, options?: HttpOptions): Observable<T> {
-    return this.http.delete<T>(`${environment.API_URL}${url}`, {
+    return this.http.delete<T>(`${this.apiUrlPrefix}${url}`, {
       ...options,
       body,
       observe: HttpObserveType.BODY,

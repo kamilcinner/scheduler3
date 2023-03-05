@@ -19,6 +19,14 @@
               {
                 "sourceTag": "scope:shopping-lists",
                 "onlyDependOnLibsWithTags": ["scope:core", "scope:shared", "scope:shopping-lists"]
+              },
+              {
+                "sourceTag": "scope:tasks",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:shared", "scope:tasks"]
+              },
+              {
+                "sourceTag": "type:utils",
+                "onlyDependOnLibsWithTags": ["type:enums"]
               }
             ]
           }

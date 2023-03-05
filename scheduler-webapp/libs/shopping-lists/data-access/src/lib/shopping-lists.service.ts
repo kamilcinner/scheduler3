@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   CreateShoppingListDto,
@@ -9,32 +9,32 @@ import {
 import { Observable } from 'rxjs';
 import { ShoppingListItemModel, ShoppingListModel } from '@rennic/shopping-lists/shared/models';
 import { FeatureUrl } from '@rennic/shared/enums';
-import { HttpService } from '@rennic/shared/services';
+import { API_URL, HttpService } from '@rennic/shared/services';
 
 @Injectable()
 export class ShoppingListsService extends HttpService {
-  constructor(protected override readonly http: HttpClient) {
-    super(http);
+  constructor(protected override readonly http: HttpClient, @Inject(API_URL) private readonly apiUrl: string) {
+    super(http, `${apiUrl}/${FeatureUrl.SHOPPING_LISTS}`);
   }
 
   create(dto: CreateShoppingListDto): Observable<ShoppingListModel> {
-    return this.post<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}`, dto);
+    return this.post<ShoppingListModel>('', dto);
   }
 
   getAll(): Observable<ShoppingListModel[]> {
-    return this.get<ShoppingListModel[]>(`/${FeatureUrl.SHOPPING_LISTS}`);
+    return this.get<ShoppingListModel[]>('');
   }
 
   getAllShoppingListItems(shoppingListId: number): Observable<ShoppingListItemModel[]> {
-    return this.get<ShoppingListItemModel[]>(`/${FeatureUrl.SHOPPING_LISTS}/${shoppingListId}`);
+    return this.get<ShoppingListItemModel[]>(`/${shoppingListId}`);
   }
 
   getOne(id: number): Observable<ShoppingListModel> {
-    return this.get<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`);
+    return this.get<ShoppingListModel>(`/${id}`);
   }
 
   update(id: number, dto: UpdateShoppingListDto): Observable<ShoppingListModel> {
-    return this.patch<ShoppingListModel>(`/${FeatureUrl.SHOPPING_LISTS}/${id}`, dto);
+    return this.patch<ShoppingListModel>(`/${id}`, dto);
   }
 
   updateShoppingListItems(

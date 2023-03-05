@@ -17,20 +17,12 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/shell/src/assets",
+          "apps/shell/src/manifest.webmanifest",
+          "apps/shell/src/favicon.ico",
           {
             "glob": "**/*",
             "input": "libs/shared/assets/src/assets",
             "output": "assets"
-          },
-          {
-            "glob": "favicon.ico",
-            "input": "libs/shared/assets/src",
-            "output": ""
-          },
-          {
-            "glob": "manifest.webmanifest",
-            "input": "libs/shared/assets/src",
-            "output": ""
           }
         ],
         "styles": [
@@ -40,7 +32,7 @@
         ],
         "scripts": [],
         "serviceWorker": true,
-        "ngswConfigPath": "ngsw-config.json",
+        "ngswConfigPath": "apps/shell/ngsw-config.json",
         "customWebpackConfig": {
           "path": "apps/shell/webpack.config.js"
         }
@@ -71,7 +63,7 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true,
-          "serviceWorker": false
+          "serviceWorker": true
         }
       },
       "defaultConfiguration": "production"
@@ -121,5 +113,5 @@
     }
   },
   "tags": ["scope:shell"],
-  "implicitDependencies": ["shared-assets", "shared-styles"]
+  "implicitDependencies": ["shopping-lists", "tasks", "shared-assets", "shared-styles"]
 }

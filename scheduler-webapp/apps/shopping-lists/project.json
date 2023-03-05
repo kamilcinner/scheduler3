@@ -21,16 +21,6 @@
             "glob": "**/*",
             "input": "libs/shared/assets/src/assets",
             "output": "assets"
-          },
-          {
-            "glob": "favicon.ico",
-            "input": "libs/shared/assets/src",
-            "output": ""
-          },
-          {
-            "glob": "manifest.webmanifest",
-            "input": "libs/shared/assets/src",
-            "output": ""
           }
         ],
         "styles": [
@@ -58,6 +48,12 @@
             }
           ],
           "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/shopping-lists/src/environments/environment.ts",
+              "with": "apps/shopping-lists/src/environments/environment.prod.ts"
+            }
+          ],
           "customWebpackConfig": {
             "path": "apps/shopping-lists/webpack.prod.config.js"
           }
